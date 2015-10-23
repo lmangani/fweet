@@ -1,0 +1,33 @@
+{
+  "name": "fweet",
+  "version": "0.0.1",
+  "description": "Easily publish and subscribe data from things",
+  "main": "fweet.js",
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/lmangani/fweet"
+  },
+  "keywords": [
+    "fweet",
+    "pubsub",
+    "redis",
+    "dweet"
+  ],
+  "author": "Lorenzo Mangani <lorenzo.mangani@gmail.com> (http://sipcapture.org/)",
+  "license": "GPLv2",
+  "bugs": {
+    "url": "https://github.com/lmangani/fweet/issues"
+  },
+   "homepage": "https://github.com/lmangani/fweet",
+  "dependencies": {
+    "redis": "0.6.6",
+    "express": "2.4.2"
+  },
+  "devDependencies": {
+    "mocha": "~2.2.5",
+    "chai": "~3.0.0"
+  }
+}
