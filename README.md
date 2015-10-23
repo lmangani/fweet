@@ -4,6 +4,8 @@
 
 Send and Receive data from your things to fweet by interacting with its simple API.
 
+<br/>
+
 ##### To fweet from your thing:
 ```
 curl -X GET -u qxip:qxip http://localhost/post/qxip?status=set+status
