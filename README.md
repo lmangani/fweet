@@ -1,4 +1,4 @@
-# ![fWeet](http://i.imgur.com/czjXDLf.png)
+# <img src="http://i.imgur.com/HF1daBu.gif" height="100"><img src="http://i.imgur.com/czjXDLf.png">
 
 #### fWeet is a simple dweet-like clone for node.js and redis _(early/alpha/unstable)_
 
