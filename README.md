@@ -2,7 +2,7 @@
 
 #### fWeet is a simple dweet-like clone for node.js and redis _(early/alpha/unstable)_
 
-Send and Receive data from your things to fweet by interacting with its simple API.
+Easily send and receive data from your _"things"_ (IOT) by interacting with fWeet JSON API 
 
 <br/>
 
