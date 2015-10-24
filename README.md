@@ -24,9 +24,10 @@ curl -X GET -u qxip:qxip http://localhost/get/qxip
 {"status":"success","data":[{"id":"1","uid":"7","thing":"qxip","status":"set status","time":"1445640694522","version":"1"},{"id":"2","uid":"7","thing":"qxip","status":"testing more","time":"1445640694689","version":"1"}]}
 ```
 
-### Requirements:
+### Setup:
 ```
 $ npm install
+$ npm test
 ```
 
 ## API Calls:
