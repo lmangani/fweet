@@ -1,3 +1,5 @@
+![travis](https://travis-ci.org/lmangani/fweet.svg?branch=master)
+
 # <img src="http://i.imgur.com/HF1daBu.gif" height="100"><img src="http://i.imgur.com/czjXDLf.png">
 
 #### fWeet is a simple dweet-like clone using node.js and redis 
