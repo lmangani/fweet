@@ -13,7 +13,7 @@
 
 */
 
-var version = "1.0b"
+var version = "1.0c"
 
 // Init Modules & Functions
 var express = require('express');
