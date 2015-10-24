@@ -1,5 +1,3 @@
-var app = require("../fweet.js");
-
 var should = require('chai').should();
     supertest = require('supertest'),
     api = supertest('http://localhost:80');
