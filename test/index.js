@@ -1,5 +1,5 @@
 var should = require('chai').should();
-var api = require('supertest')('http://127.0.0.1');
+var api = require('supertest')('http://127.0.0.1:8080');
 var server = require('../fweet.js');
 
 describe('Authentication', function() {
