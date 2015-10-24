@@ -92,7 +92,7 @@ app.all('/post/:thing', function(req,res) {
 	            multiAction.lpush("uid:"+users[uid]+":posts",pid);
 	         }
 	         multiAction.exec(function(err,replies) { 
-			 msg = Res200; msg.data = "[{ id: "+pid+" }]"; res.send(msg);
+			 msg = Res200; msg.data = [{ id: pid }]; res.send(msg);
 		 });
 	      });
 	   });
@@ -127,7 +127,7 @@ app.all('/post/:thing', function(req,res) {
 		            multiAction.lpush("uid:"+users[uid]+":posts",pid);
 		         }
 		         multiAction.exec(function(err,replies) { 
-				 msg = Res200; msg.data = "[{ id: "+pid+", new: 1 }]"; res.send(msg);
+	 			 msg = Res200; msg.data = [{ id: pid, new: 1 }]; res.send(msg);
 			});
 	              });
 	            });
