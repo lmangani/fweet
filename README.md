@@ -26,7 +26,7 @@ curl -X GET -u qxip:qxip http://localhost/get/qxip
 
 ### Requirements:
 ```
-$ npm install express redis
+$ npm install
 ```
 
 ## API Calls:
