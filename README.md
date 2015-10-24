@@ -37,3 +37,6 @@ $ npm install express redis
     GET     /get/timeline           Read all the available posts from a All the Things
 ```
 
+## To-Do:
+
+* lots of stuff
