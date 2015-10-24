@@ -25,7 +25,7 @@
    "homepage": "https://github.com/lmangani/fweet",
   "dependencies": {
     "redis": "2.2.5",
-    "express": "4.13.3"
+    "express": "2.*"
   },
   "devDependencies": {
     "mocha": "*",
