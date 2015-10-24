@@ -1,4 +1,6 @@
-var should = require('chai').should(),
+var app = require("../fweet.js");
+
+var should = require('chai').should();
     supertest = require('supertest'),
     api = supertest('http://localhost:80');
 
@@ -29,7 +31,7 @@ describe('/get/timeline', function() {
     .expect('Content-Type', /json/)
     .end(function(err, res) {
       if (err) return done(err);
-      res.body.should.have.property('data').and.be.instanceof(Array);
+      res.body.should.have.property('data');
       done();
     });
   });
