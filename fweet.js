@@ -244,8 +244,10 @@ app.get('/listen/to/:thing', function(req,res) {
 		res.writeHead(200, {'Content-Type': 'application/json'});
 		rsub.on('message', function (channel, message) {
 		    // console.log('\n\n*************\n\nReceived event',channel.replace(THING_PREFIX,''),'\n\n',message,'\n\n**************');
-	   	    msg = Res200; msg.data = message; 
-			res.write('\n\r'+JSON.stringify(msg) );
+	   	    msg = Res200; msg.data = [message];
+                        // Ridicolous sanitizer, needs replacement
+                        msg = JSON.stringify(msg).replace(/\\/g, '').replace(/\"{/g, '{').replace(/}\"/,'}').replace(/\"]/g, ']').replace(/\[\"/g, '[');
+                        res.write('\n\r'+msg );
 		});
       }
    });
