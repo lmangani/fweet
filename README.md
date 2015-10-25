@@ -57,16 +57,20 @@ curl -X GET -u qxip:qxip http://localhost/get/qxip
 ```
 $ npm install
 $ npm test
+$ npm start
 ```
 
-## API Calls:
+### API Calls:
 ```
     POST    /post/:thing            Create a post for a Thing
     GET     /get/latest/:thing      Read the latest post from a Thing
     GET     /get/:thing             Read all the available posts from a Thing
     GET     /get/timeline           Read all the available posts from a All the Things
+    GET     /del/oldest/:thing      Delete oldest posts from a Thing (careful!)
+    GET     /del/all/:thing         Delete all posts from a Thing (careful!)
+
 ```
 
-## To-Do:
+### To-Do:
 
 * lots of stuff
