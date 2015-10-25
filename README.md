@@ -60,6 +60,20 @@ $ curl -X GET -u qxip:qxip http://localhost:8080/get/qxip
 }
 ```
 
+##### To subscribe to realtime fweets for a thing:
+```
+$ curl --raw -u qxip:qxip http://localhost:8080/listen/to/qxip
+{
+   "status": "success",
+   "data": "{\"pid\":61,\"uid\":\"7\",\"thing\":\"qxip\",\"time\":1445783849758,\"status\":\"realtime\"}"
+}
+
+{
+   "status": "success",
+   "data": "{\"pid\":62,\"uid\":\"7\",\"thing\":\"qxip\",\"time\":1445783852492,\"status\":\"message\"}"
+}
+```
+
 ### Setup:
 ```
 $ npm install
@@ -73,6 +87,7 @@ $ npm start
     GET     /get/latest/:thing      Read the latest post from a Thing
     GET     /get/:thing             Read all the available posts from a Thing
     GET     /get/timeline           Read all the available posts from a All the Things
+    GET     /listen/to/:thing       Subscribe to live posts from a Thing  
     GET     /del/oldest/:thing      Delete oldest posts from a Thing (careful!)
     GET     /del/all/:thing         Delete all posts from a Thing (careful!)
 
