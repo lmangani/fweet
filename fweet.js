@@ -54,7 +54,7 @@ app.dynamicHelpers({
 
 app.configure(function(){
    // Optional Authenticator
-   // app.use(express.basicAuth('qxip', 'qxip'));
+   app.use(express.basicAuth('qxip', 'qxip'));
    app.use(express.bodyParser());
    app.use(express.methodOverride());
    app.use(app.router);
