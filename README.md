@@ -7,7 +7,6 @@ Status: _(early/alpha/unstable)_
 
 Easily send and receive data from your _"things"_ (IOT) by interacting with fWeet JSON API 
 
-<img src="http://i.imgur.com/Y2G4i3e.png?2">
 <br/>
 
 ##### To fweet from your thing:
@@ -84,6 +83,8 @@ $ npm start
 
 ### Visualize:
 An barebone example dashboard is available [here](https://freeboard.io/board/T0R2h2)
+
+<img src="http://i.imgur.com/xAFtFvk.png" />
 
 Test it by sending commands with geo values (or anything else!) as in the following examples:
 ```
