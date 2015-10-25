@@ -99,7 +99,7 @@ app.all('/post/:thing', function(req,res) {
 	
 	      r.set("post:"+pid,post)
 	      r.lpush("global:timeline",pid);
-	      r.ltrim("global:timeline",0,1000); //keep last 1000 only
+	      r.ltrim("global:timeline",0,500); //keep last 1000 only
 	
 	      r.smembers("uid:" + req.stash.user.id + ":followers",function(err,users) {
 	         if (err) {
@@ -126,7 +126,8 @@ app.all('/post/:thing', function(req,res) {
                   // Use new Thing
 		    r.incr("global:nextPostId",function(err,pid) {
 		      if ( isJSON(req.param('status')) ) {
-		      	var status = JSON.stringify(req.param('status'));
+		      	// var status = JSON.stringify(req.param('status'));
+			var status = req.param('status').replace(/\n/,"");
 		      } else {
 			var status = req.param('status').replace(/\n/,"");
 		      }
@@ -134,7 +135,7 @@ app.all('/post/:thing', function(req,res) {
 		
 		      r.set("post:"+pid,post)
 		      r.lpush("global:timeline",pid);
-		      r.ltrim("global:timeline",0,1000); //keep last 1000 only
+		      r.ltrim("global:timeline",0,500); //keep last 1000 only
 		
 		      r.smembers("uid:" + req.stash.user.id + ":followers",function(err,users) {
 		         if (err) {
@@ -169,9 +170,12 @@ app.get('/get/timeline', function(req,res) {
       req.stash.start = start;
       req.stash.count = count;
       User.getPosts(-1, start, count, function(err, posts) {
-         if (err) {console.log('error retrieving all posts : ' + err)}
-         req.stash.posts = posts;
-	 msg = Res200; msg.data = posts; res.send(msg);
+         if (err) { 
+		msg = Res500; msg.error = "no data"; res.send(msg); }
+         else { 
+		req.stash.posts = posts;
+	 	msg = Res200; msg.data = posts; res.send(msg);
+	 }
       });
    });
 });
@@ -226,10 +230,11 @@ app.get('/del/all/:thing', function(req,res) {
       req.stash.count = count;
       req.stash.uid = uid;
       req.stash.thing = req.param('thing','');
+      var count = 0;
       User.delAllPosts(uid,function(err,posts) {
-         req.stash.posts = posts;
-	 msg = Res200; msg.data = { deleted: posts }; res.send(msg);
+	  if (!err) count = posts.length;
       });
+	 msg = Res200; msg.data = { deleted: count }; res.send(msg);
    });
 });
 
