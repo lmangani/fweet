@@ -41,7 +41,19 @@ describe('/get/timeline', function() {
     .expect('Content-Type', /json/)
     .end(function(err, res) {
       if (err) return done(err);
-      res.body.should.have.property('data').and.be.instanceof(Array);
+      res.body.should.have.property('data');
+      done();
+    });
+  });
+
+  it('remove all posts by thing', function(done) {
+    api.get('/del/all/qxip')
+    .auth('qxip', 'qxip')
+    .expect(200)
+    .expect('Content-Type', /json/)
+    .end(function(err, res) {
+      if (err) return done(err);
+      res.body.should.have.property('data');
       done();
     });
   });
