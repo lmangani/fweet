@@ -10,6 +10,8 @@
 	GET	/get/latest/:thing	Read the latest post from a Thing
 	GET	/get/:thing		Read all the available posts from a Thing
 	GET	/get/timeline		Read all the available posts from a All the Things
+	GET	/del/oldest/:thing	Delete oldest posts from a Thing (careful!)
+	GET	/del/all/:thing		Delete all posts from a Thing (careful!)
 
 */
 
@@ -43,8 +45,8 @@ var User = require('./lib/user.js');
 var Post = require('./lib/post.js');
 
 /* Response Templates */
-var Res200 = { "status": "success", "data": "" };
-var Res500 = { "status": "failure", "error": "" };
+var Res200 = { "status": "success", "data": "no data" };
+var Res500 = { "status": "failure", "error": "no errors" };
 
 app.dynamicHelpers({
    stash: function(req, res){
@@ -176,7 +178,7 @@ app.get('/get/timeline', function(req,res) {
 
 app.get('/get/latest/:thing', function(req,res) {
    r.get("thing:"+req.param('thing','')+":id",function(err,uid) {
-      if (err || !uid > 0) { msg = Res500; msg.error = err; return res.send(msg); }
+      if (err || !uid > 0) { msg = Res500; msg.error = 'bad request'; return res.send(msg); }
       var start = req.param('start',-1);
       var count = req.param('count',0);
       req.stash.start = start;
@@ -185,14 +187,19 @@ app.get('/get/latest/:thing', function(req,res) {
       req.stash.thing = req.param('thing','');
       User.getPosts(uid,start,count,function(err,posts) {
          req.stash.posts = posts;
-	 msg = Res200; msg.data = posts; res.send(msg);
+	 if (posts !== undefined) {
+		 msg = Res200; msg.data = posts; res.send(msg);
+	 } else {
+		 msg = Res200; msg.data = { results: 0 }; res.send(msg);
+	 }
+
       });
    });
 });
 
 app.get('/get/:thing', function(req,res) {
    r.get("thing:"+req.param('thing','')+":id",function(err,uid) {
-      if (err || !uid > 0) return res.send('not found!');
+      if (err || !uid > 0) { msg = Res500; msg.error = 'bad request'; res.send(msg); }
       var start = req.param('start',0);
       var count = req.param('count',50);
       req.stash.start = start;
@@ -201,45 +208,77 @@ app.get('/get/:thing', function(req,res) {
       req.stash.thing = req.param('thing','');
       User.getPosts(uid,start,count,function(err,posts) {
          req.stash.posts = posts;
-	 msg = Res200; msg.data = posts; res.send(msg);
+	 if (posts !== undefined) {
+		 msg = Res200; msg.data = posts; res.send(msg);
+	 } else {
+		 msg = Res200; msg.data = { results: 0 }; res.send(msg);
+	 }
       });
    });
 });
 
-app.get('/del/latest/:thing', function(req,res) {
+app.get('/del/all/:thing', function(req,res) {
    r.get("thing:"+req.param('thing','')+":id",function(err,uid) {
-      if (err || !uid > 0) return res.send('not found!');
+      if (err || !uid > 0) { msg = Res500; msg.error = 'bad request'; res.send(msg); }
       var start = req.param('start',0);
       var count = req.param('count',0);
       req.stash.start = start;
       req.stash.count = count;
       req.stash.uid = uid;
       req.stash.thing = req.param('thing','');
+      User.delAllPosts(uid,function(err,posts) {
+         req.stash.posts = posts;
+	 msg = Res200; msg.data = { deleted: posts }; res.send(msg);
+      });
+   });
+});
+
+// BROKEN! WIP!
+app.get('/del/oldest/:thing', function(req,res) {
+   r.get("thing:"+req.param('thing','')+":id",function(err,uid) {
+      if (err || !uid > 0) { msg = Res500; msg.error = 'bad request'; res.send(msg); }
+      var start = req.param('start',1);
+      var count = req.param('count',-1);
+      req.stash.start = start;
+      req.stash.count = count;
+      req.stash.uid = uid;
+      req.stash.thing = req.param('thing','');
       User.delPosts(uid,start,count,function(err,posts) {
          req.stash.posts = posts;
-	 msg = Res200; msg.data = posts; res.send(msg);
+	 msg = Res200; msg.data = { deleted: posts }; res.send(msg);
       });
    });
 });
 
 
-app.get('/follow/:uid', function(req,res) {follow(req,res,req.param('uid',-1),true)});
-app.get('/unfollow/:uid', function(req,res) {follow(req,res,req.param('uid',-1),false)});
+app.get('/set/:user/follow/:uid', function(req,res) {
+	if (req.param.key) {	
+		follow(req,res,req.param('uid',-1),true,req.param('user','') )
+	}
+});
 
-function follow(req,res,uid,follow) {
-   if (!req.stash.user.isLoggedIn()) return res.redirect('/');
-   if (uid > 0 && uid != req.stash.user.id) {
-      if (follow) {
-         r.sadd("uid:"+uid+":followers",req.stash.user.id);
-         r.sadd("uid:"+req.stash.user.id+":following",uid);
-       } else {
-         r.srem("uid:"+uid+":followers",req.stash.user.id);
-         r.srem("uid:"+req.stash.user.id+":following",uid);
-      }
+app.get('/set/:user/unfollow/:uid', function(req,res) {
+	if (req.param.key) {	
+		follow(req,res,req.param('uid',-1),false,req.param('user','') )
+	}
+});
+
+function follow(req,res,uid,follow,user) {
+   if (user.length > 0 && user != req.stash.user.id) { 
+	   if (uid > 0 && uid != user) {
+	      if (follow) {
+	         r.sadd("uid:"+uid+":followers",user);
+	         r.sadd("uid:"+user+":following",uid);
+	       } else {
+	         r.srem("uid:"+uid+":followers",user);
+	         r.srem("uid:"+user+":following",uid);
+	      }
+	   }
+	   r.get('uid:'+uid+':name',function(err,name) {
+	      res.redirect('/get/' + name);
+	   });
    }
-   r.get('uid:'+uid+':name',function(err,name) {
-      res.redirect('/get/' + name);
-   });
+
 }
 
 app.post('/register', function(req,res) {
