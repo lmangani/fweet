@@ -11,15 +11,22 @@ Easily send and receive data from your _"things"_ (IOT) by interacting with fWee
 
 ##### To fweet from your thing:
 ```
-curl -X GET -u qxip:qxip http://localhost/post/qxip?status=set+status
+$ curl -X GET -u qxip:qxip http://localhost:8080/post/qxip?status=set+status
 {   "status":"success",
     "data": [{ id: 1 }]
 }
 ```
 
+```
+$ curl -X POST -d 'status={"temp": 99}' -u qxip:qxip http://localhost:8080/post/qxip
+{   "status":"success",
+    "data": [{ id: 2 }]
+}
+```
+
 ##### To read the latest fweet for a thing:
 ```
-curl -X GET -u qxip:qxip http://localhost/get/latest/qxip
+$ curl -X GET -u qxip:qxip http://localhost:8080/get/latest/qxip
 {   "status":"success",
     "data":[
         {   "id":"1",
@@ -34,7 +41,7 @@ curl -X GET -u qxip:qxip http://localhost/get/latest/qxip
 
 ##### To read all fweets for a thing:
 ```
-curl -X GET -u qxip:qxip http://localhost/get/qxip
+$ curl -X GET -u qxip:qxip http://localhost:8080/get/qxip
 {   "status":"success",
     "data":[
         {   "id":"1",
@@ -46,7 +53,7 @@ curl -X GET -u qxip:qxip http://localhost/get/qxip
         {   "id":"2",
             "uid":"7",
             "thing":"qxip",
-            "status":"testing more",
+            "status":{"temp": 99},
             "time":"1445640694689",
             "version":"1"
         }]
