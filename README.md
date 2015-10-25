@@ -13,14 +13,14 @@ Easily send and receive data from your _"things"_ (IOT) by interacting with fWee
 ```
 $ curl -X GET -u qxip:qxip http://localhost:8080/post/qxip?status=set+status
 {   "status":"success",
-    "data": [{ id: 1 }]
+    "data": [{ uid: 7, id: 1 }]
 }
 ```
 
 ```
 $ curl -X POST -d 'status={"temp": 99}' -u qxip:qxip http://localhost:8080/post/qxip
 {   "status":"success",
-    "data": [{ id: 2 }]
+    "data": [{ uid: 7, id: 2 }]
 }
 ```
 
@@ -29,12 +29,12 @@ $ curl -X POST -d 'status={"temp": 99}' -u qxip:qxip http://localhost:8080/post/
 $ curl -X GET -u qxip:qxip http://localhost:8080/get/latest/qxip
 {   "status":"success",
     "data":[
-        {   "id":"1",
-            "uid":"1",
+        {   "id":1,
+            "uid":1,
             "thing":"qxip",
             "status":"set status",
-            "time":"1445640694522",
-            "version":"1"
+            "time":1445640694522,
+            "version":1
         }]
 }
 ```
@@ -44,18 +44,18 @@ $ curl -X GET -u qxip:qxip http://localhost:8080/get/latest/qxip
 $ curl -X GET -u qxip:qxip http://localhost:8080/get/qxip
 {   "status":"success",
     "data":[
-        {   "id":"1",
-            "uid":"7",
+        {   "id":1,
+            "uid":7,
             "thing":"qxip",
             "status":"set status",
-            "time":"1445640694522",
-            "version":"1"},
-        {   "id":"2",
-            "uid":"7",
+            "time":1445640694522,
+            "version":1},
+        {   "id":2,
+            "uid":7,
             "thing":"qxip",
             "status":{"temp": 99},
-            "time":"1445640694689",
-            "version":"1"
+            "time":1445640694689,
+            "version":1
         }]
 }
 ```
