@@ -10,12 +10,13 @@
 	GET	/get/latest/:thing	Read the latest post from a Thing
 	GET	/get/:thing		Read all the available posts from a Thing
 	GET	/get/timeline		Read all the available posts from a All the Things
+	GET	/listen/to/:thing	Subscribe to live posts from a Thing
 	GET	/del/oldest/:thing	Delete oldest posts from a Thing (careful!)
 	GET	/del/all/:thing		Delete all posts from a Thing (careful!)
 
 */
 
-var version = "1.0e"
+var version = "1.0f"
 
 console.log('::: fweet '+version+' initializing ...');
 
@@ -28,6 +29,9 @@ var app = express.createServer();
 
 var Redis = require('./lib/redis.js');
 var r = GLOBAL._REDISCLIENT;
+// Redis Publishers
+var rpub = GLOBAL._REDISCLIENTPUB;
+var rsub = GLOBAL._REDISCLIENTSUB;
 
 // Check Existing Stack in Redis (*NO PRODUCTION*)
 r.keys('*:id', function (err, keys) {
@@ -88,7 +92,7 @@ app.all('/post/:thing', function(req,res) {
       // Find or create Thing
       r.get('thing:' + thing + ':id',function(err,val){
          if (err) {
-	    msg = Res500; msg.error = err; res.send(msg);
+	    msg = Res500; msg.error = { how: "failed to find thing: "+thing, error: err}; res.send(msg);
          } else if (val) {
 	    // Thing is valid!
 	    req.stash.user = {};
@@ -96,6 +100,7 @@ app.all('/post/:thing', function(req,res) {
 	    r.incr("global:nextPostId",function(err,pid) {
 	      var status = req.param('status').replace(/\n/,"");
 	      var post = [Post.currentVersion,pid,req.stash.user.id,req.stash.user.name,+new Date(),status].join('|');
+	      var postjson = {pid:pid,uid:req.stash.user.id,thing:req.stash.user.name,time:+new Date(),status:status};
 	
 	      r.set("post:"+pid,post)
 	      r.lpush("global:timeline",pid);
@@ -113,6 +118,8 @@ app.all('/post/:thing', function(req,res) {
 	         }
 	         multiAction.exec(function(err,replies) { 
 			 msg = Res200; msg.data = [{ uid: req.stash.user.id, id: pid }]; res.send(msg);
+			 rpub.publish('pubsub:'+req.stash.user.id,JSON.stringify(postjson) );
+
 		 });
 	      });
 	   });
@@ -149,6 +156,7 @@ app.all('/post/:thing', function(req,res) {
 		         }
 		         multiAction.exec(function(err,replies) { 
 	 			 msg = Res200; msg.data = [{ uid: req.stash.user.id, id: pid, new: 1 }]; res.send(msg);
+				 rpub.publish('pubsub:'+req.stash.user.id,JSON.stringify(msg) );
 			});
 	              });
 	            });
@@ -220,6 +228,29 @@ app.get('/get/:thing', function(req,res) {
       });
    });
 });
+
+
+app.get('/listen/to/:thing', function(req,res) {
+   r.get("thing:"+req.param('thing','')+":id",function(err,uid) {
+      if (err || !uid > 0) { msg = Res500; msg.error = 'bad request'; res.send(msg); }
+      else {
+	      req.stash.uid = uid;
+	      req.stash.thing = req.param('thing','');
+	
+		var THING_PREFIX = 'pubsub:'+uid;
+	        // r.set(THING_PREFIX);
+		rsub.subscribe(THING_PREFIX);
+	
+		res.writeHead(200, {'Content-Type': 'application/json'});
+		rsub.on('message', function (channel, message) {
+		    // console.log('\n\n*************\n\nReceived event',channel.replace(THING_PREFIX,''),'\n\n',message,'\n\n**************');
+	   	    msg = Res200; msg.data = message; 
+			res.write('\n\r'+JSON.stringify(msg) );
+		});
+      }
+   });
+});
+
 
 app.get('/del/all/:thing', function(req,res) {
    r.get("thing:"+req.param('thing','')+":id",function(err,uid) {
