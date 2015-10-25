@@ -7,6 +7,7 @@ Status: _(early/alpha/unstable)_
 
 Easily send and receive data from your _"things"_ (IOT) by interacting with fWeet JSON API 
 
+![IoT](http://i.imgur.com/Y2G4i3e.png)
 <br/>
 
 ##### To fweet from your thing:
