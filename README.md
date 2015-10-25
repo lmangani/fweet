@@ -2,7 +2,7 @@
 
 # <img src="http://i.imgur.com/HF1daBu.gif" height="100"><img src="http://i.imgur.com/czjXDLf.png">
 
-#### fWeet is a simple dweet-like clone using node.js and redis 
+#### fWeet is a simple dweet-like application using node.js and redis 
 Status: _(early/alpha/unstable)_
 
 Easily send and receive data from your _"things"_ (IOT) by interacting with fWeet JSON API 
