@@ -86,7 +86,7 @@ An barebone example dashboard is available [here](https://freeboard.io/board/T0R
 
 <img src="http://i.imgur.com/xAFtFvk.png" />
 
-Test it by sending commands with geo values (or anything else!) as in the following examples:
+Test it by sending commands with geo values (or anything else!) to our public demo:
 ```
 $ curl -X POST -d 'status={ "geo_lat": 40.716118,"geo_lon": -75.011661, "value": 60 }' -u qxip:qxip http://cryptic-brook-7493.herokuapp.com/post/qxip
 $ curl -X POST -d 'status={ "geo_lat": 52.786118,"geo_lon": 4.311661, "value": 100 }' -u qxip:qxip http://cryptic-brook-7493.herokuapp.com/post/qxip
