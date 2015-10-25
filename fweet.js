@@ -13,18 +13,36 @@
 
 */
 
-var version = "1.0c"
+var version = "1.0e"
+
+console.log('::: fweet '+version+' initializing ...');
 
 // Init Modules & Functions
 var express = require('express');
 var app = express.createServer();
-var redis = require('redis');
-var r = redis.createClient(6379,'127.0.0.1');
+
+/* Optional Redis Server address */
+// GLOBAL._REDISURL = "redis://user:pass@remote.redis:port"
+
+var Redis = require('./lib/redis.js');
+var r = GLOBAL._REDISCLIENT;
+
+// Check Existing Stack in Redis (*NO PRODUCTION*)
+r.keys('*:id', function (err, keys) {
+  if (err) return console.log(err);
+  console.log('Things: '+keys.length);
+});     
+
+r.keys('post:*', function (err, keys) {
+  if (err) return console.log(err);
+  console.log('Posts: '+keys.length);
+});     
 
 var Util = require('./lib/util.js');
 var User = require('./lib/user.js');
 var Post = require('./lib/post.js');
 
+/* Response Templates */
 var Res200 = { "status": "success", "data": "" };
 var Res500 = { "status": "failure", "error": "" };
 
@@ -35,8 +53,8 @@ app.dynamicHelpers({
 });
 
 app.configure(function(){
-   // Authenticator
-   app.use(express.basicAuth('qxip', 'qxip'));
+   // Optional Authenticator
+   // app.use(express.basicAuth('qxip', 'qxip'));
    app.use(express.bodyParser());
    app.use(express.methodOverride());
    app.use(app.router);
@@ -262,5 +280,13 @@ function isJSON (jsonString){
     return false;
 };
 
+// Start API Server
 app.listen(8080);
+console.log('Ready!');
 
+process.on('SIGINT', function() {
+    console.log(' detected!');
+    console.log("Terminating...");
+	app.close();
+        process.exit();
+});
