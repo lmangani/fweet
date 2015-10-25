@@ -78,6 +78,9 @@ app.configure('production', function(){
 
 app.all('*',function(req,res,next) {
    req.stash = {};
+   res.header('Access-Control-Allow-Origin', '*'); 
+   res.header('Access-Control-Allow-Methods', 'GET, POST');
+   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
    next();
 });
 
