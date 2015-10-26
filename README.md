@@ -1,6 +1,9 @@
 ![travis](https://travis-ci.org/lmangani/fweet.svg?branch=master)
+<br><img src="http://i.imgur.com/8sCQNt2.png?1" heigth="25"> 
 
 # <img src="http://i.imgur.com/HF1daBu.gif" height="100"><img src="http://i.imgur.com/czjXDLf.png">
+
+
 
 #### fWeet is a simple dweet-like application using node.js and redis 
 Status: _(early/alpha/unstable)_
