@@ -12,7 +12,8 @@ Easily send and receive data from your _"things"_ (IOT) by interacting with fWee
 ##### To fweet from your thing:
 ```
 $ curl -X GET -u qxip:qxip http://localhost:8080/post/qxip?status=set+status
-
+```
+```
 {   "status":"success",
     "data": [{ uid: 7, id: 1 }]
 }
@@ -20,7 +21,8 @@ $ curl -X GET -u qxip:qxip http://localhost:8080/post/qxip?status=set+status
 
 ```
 $ curl -X POST -d 'status={"temp": 99}' -u qxip:qxip http://localhost:8080/post/qxip
-
+```
+```
 {   "status":"success",
     "data": [{ uid: 7, id: 2 }]
 }
@@ -29,7 +31,8 @@ $ curl -X POST -d 'status={"temp": 99}' -u qxip:qxip http://localhost:8080/post/
 ##### To read the latest fweet for a thing:
 ```
 $ curl -X GET -u qxip:qxip http://localhost:8080/get/latest/qxip
-
+```
+```
 {   "status":"success",
     "data":[
         {   "id":1,
@@ -45,7 +48,8 @@ $ curl -X GET -u qxip:qxip http://localhost:8080/get/latest/qxip
 ##### To read all fweets for a thing:
 ```
 $ curl -X GET -u qxip:qxip http://localhost:8080/get/qxip
-
+```
+```
 {   "status":"success",
     "data":[
         {   "id":1,
@@ -67,7 +71,8 @@ $ curl -X GET -u qxip:qxip http://localhost:8080/get/qxip
 ##### To subscribe to realtime fweets for a thing:
 ```
 $ curl --raw -u qxip:qxip http://localhost:8080/listen/to/qxip
-
+```
+```
 {
    "status": "success",
    "data": "{\"pid\":61,\"uid\":\"7\",\"thing\":\"qxip\",\"time\":1445783849758,\"status\":\"realtime\"}"
