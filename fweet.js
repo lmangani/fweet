@@ -16,7 +16,7 @@
 
 */
 
-var version = "1.0f"
+var version = "1.0g"
 
 console.log('::: fweet '+version+' initializing ...');
 
@@ -32,6 +32,9 @@ var r = GLOBAL._REDISCLIENT;
 // Redis Publishers
 var rpub = GLOBAL._REDISCLIENTPUB;
 var rsub = GLOBAL._REDISCLIENTSUB;
+
+// Extend mapping
+var extend = require('util')._extend;
 
 // Check Existing Stack in Redis (*NO PRODUCTION*)
 r.keys('*:id', function (err, keys) {
@@ -90,6 +93,7 @@ app.get('/', function(req,res) {
 
 app.all('/post/:thing', function(req,res) {
    var thing = req.param('thing','');
+   if (thing.length <= 0 | typeof(thing.length)=== undefined ) { msg = Res500; msg.error = { how: "thing name mandatory!", error: "missing field"}; res.send(msg); }
    var username = thing;
    var password = "";
       // Find or create Thing
@@ -101,9 +105,15 @@ app.all('/post/:thing', function(req,res) {
 	    req.stash.user = {};
 	    req.stash.user.name = thing; req.stash.user.id = val;
 	    r.incr("global:nextPostId",function(err,pid) {
-	      var status = req.param('status').replace(/\n/,"");
-	      var post = [Post.currentVersion,pid,req.stash.user.id,req.stash.user.name,+new Date(),status].join('|');
-	      var postjson = {pid:pid,uid:req.stash.user.id,thing:req.stash.user.name,time:+new Date(),status:status};
+
+	    var data = JSON.stringify(extend(req.body,req.query));
+	    if (req.param('key') !== undefined) {
+		    var key = req.param('key');
+		    data.key = undefined;
+	    }
+
+	      var post = [Post.currentVersion,pid,req.stash.user.id,req.stash.user.name,+new Date(),data].join('|');
+	      var postjson = {pid:pid,uid:req.stash.user.id,thing:req.stash.user.name,time:+new Date(),data:data};
 	
 	      r.set("post:"+pid,post)
 	      r.lpush("global:timeline",pid);
@@ -135,13 +145,108 @@ app.all('/post/:thing', function(req,res) {
                   req.stash.user = user;
                   // Use new Thing
 		    r.incr("global:nextPostId",function(err,pid) {
-		      if ( isJSON(req.param('status')) ) {
-		      	// var status = JSON.stringify(req.param('status'));
-			var status = req.param('status').replace(/\n/,"");
-		      } else {
-			var status = req.param('status').replace(/\n/,"");
-		      }
-		      var post = [Post.currentVersion,pid,req.stash.user.id,req.stash.user.name,+new Date(),status].join('|');
+
+		    var data = JSON.stringify(extend(req.body,req.query));
+		    if (req.param('key') !== undefined) {
+			    var key = req.param('key');
+			    data.key = undefined;
+		    }
+
+		      var post = [Post.currentVersion,pid,req.stash.user.id,req.stash.user.name,+new Date(),data].join('|');
+		      var postjson = {pid:pid,uid:req.stash.user.id,thing:req.stash.user.name,time:+new Date(),data:data};
+
+		      r.set("post:"+pid,post)
+		      r.lpush("global:timeline",pid);
+		      r.ltrim("global:timeline",0,500); //keep last 1000 only
+		
+		      r.smembers("uid:" + req.stash.user.id + ":followers",function(err,users) {
+		         if (err) {
+		            console.log("Could not retrieve followers");
+		            users = [];
+		         }
+		         users.push(req.stash.user.id);
+		         var multiAction = r.multi();
+		         for (uid in users) {
+		            multiAction.lpush("uid:"+users[uid]+":posts",pid);
+		         }
+		         multiAction.exec(function(err,replies) { 
+	 			 msg = Res200; msg.data = [{ uid: req.stash.user.id, id: pid, new: 1 }]; res.send(msg);
+				 rpub.publish('pubsub:'+req.stash.user.id,JSON.stringify(postjson) );
+			});
+	              });
+	            });
+               }
+            });
+         }
+      });
+
+
+});
+
+/* duplicate functionality for dev */
+app.all('/fweet/for/:thing', function(req,res) {
+   var thing = req.param('thing','');
+   if (thing.length <= 0 | typeof(thing.length)=== undefined ) { msg = Res500; msg.error = { how: "thing name mandatory!", error: "missing field"}; res.send(msg); }
+   var username = thing;
+   var password = "";
+      // Find or create Thing
+      r.get('thing:' + thing + ':id',function(err,val){
+         if (err) {
+	    msg = Res500; msg.error = { how: "failed to find thing: "+thing, error: err}; res.send(msg);
+         } else if (val) {
+	    // Thing is valid!
+	    req.stash.user = {};
+	    req.stash.user.name = thing; req.stash.user.id = val;
+	    r.incr("global:nextPostId",function(err,pid) {
+
+	    var data = JSON.stringify(extend(req.body,req.query));
+	    if (req.param('key') !== undefined) {
+		    var key = req.param('key');
+		    data.key = undefined;
+	    }
+
+	      var post = [Post.currentVersion,pid,req.stash.user.id,req.stash.user.name,+new Date(),data].join('|');
+	      var postjson = {pid:pid,uid:req.stash.user.id,thing:req.stash.user.name,time:+new Date(),data:data};
+	
+	      r.set("post:"+pid,post)
+	      r.lpush("global:timeline",pid);
+	      r.ltrim("global:timeline",0,500); //keep last 1000 only
+	
+	      r.smembers("uid:" + req.stash.user.id + ":followers",function(err,users) {
+	         if (err) {
+	            console.log("Could not retrieve followers");
+	            users = [];
+	         }
+	         users.push(req.stash.user.id);
+	         var multiAction = r.multi();
+	         for (uid in users) {
+	            multiAction.lpush("uid:"+users[uid]+":posts",pid);
+	         }
+	         multiAction.exec(function(err,replies) { 
+			 msg = Res200; msg.data = [{ uid: req.stash.user.id, id: pid }]; res.send(msg);
+			 rpub.publish('pubsub:'+req.stash.user.id,JSON.stringify(postjson) );
+
+		 });
+	      });
+	   });
+
+         } else {
+            User.register(thing,password,function(err,user,session) {
+               if (err) {
+		  msg = Res500; msg.error = err; res.send(msg);
+               } else {
+                  req.stash.user = user;
+                  // Use new Thing
+		      r.incr("global:nextPostId",function(err,pid) {
+
+		      var data = JSON.stringify(extend(req.body,req.query));
+		      if (req.param('key') !== undefined) {
+			    var key = req.param('key');
+			    data.key = undefined;
+	 	      }
+
+		      var post = [Post.currentVersion,pid,req.stash.user.id,req.stash.user.name,+new Date(),data].join('|');
+		      var postjson = {pid:pid,uid:req.stash.user.id,thing:req.stash.user.name,time:+new Date(),data:data};
 		
 		      r.set("post:"+pid,post)
 		      r.lpush("global:timeline",pid);
@@ -159,7 +264,7 @@ app.all('/post/:thing', function(req,res) {
 		         }
 		         multiAction.exec(function(err,replies) { 
 	 			 msg = Res200; msg.data = [{ uid: req.stash.user.id, id: pid, new: 1 }]; res.send(msg);
-				 rpub.publish('pubsub:'+req.stash.user.id,JSON.stringify(msg) );
+				 rpub.publish('pubsub:'+req.stash.user.id,JSON.stringify(postjson) );
 			});
 	              });
 	            });
