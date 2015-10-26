@@ -75,12 +75,12 @@ $ curl --raw -u qxip:qxip http://localhost:8080/listen/to/qxip
 ```
 {
    "status": "success",
-   "data": "{\"pid\":61,\"uid\":\"7\",\"thing\":\"qxip\",\"time\":1445783849758,\"status\":\"realtime\"}"
+   "data": "{"pid":61,"uid":7,"thing":"qxip","time":1445783849758,"status":"realtime"}"
 }
 
 {
    "status": "success",
-   "data": "{\"pid\":62,\"uid\":\"7\",\"thing\":\"qxip\",\"time\":1445783852492,\"status\":\"message\"}"
+   "data": "{"pid":62,"uid":7,"thing":"qxip","time":1445783852492,"status":"message"}"
 }
 ```
 
