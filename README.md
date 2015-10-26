@@ -10,7 +10,7 @@ Status: _(early/alpha/unstable)_
 
 Easily send and receive data from your _"things"_ (IOT) by interacting with fWeet JSON API 
 
-<img src="http://i.imgur.com/PXjXiRV.gif" width="50"><img src="http://i.imgur.com/UWjVcZW.gif" width="50"><img src="http://i.imgur.com/8sCQNt2.png" width="50">
+<img src="http://i.imgur.com/PXjXiRV.gif" width="50"><img src="http://i.imgur.com/EX3cr4z.gif" width="50"><img src="http://i.imgur.com/UWjVcZW.gif" width="50"><img src="http://i.imgur.com/8sCQNt2.png" width="50">
 
 <br/>
 --------------
