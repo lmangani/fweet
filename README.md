@@ -14,37 +14,30 @@ Easily send and receive data from your _"things"_ (IOT) by interacting with fWee
 
 <br/>
 --------------
-##### To fweet from your thing:
+##### fweet from your thing:
 ```
 $ curl -X GET -u qxip:qxip http://localhost:8080/post/qxip?status=set+status
 ```
+
+##### fweet JSON body and/or parameters:
 ```
-{   "status":"success",
-    "data": [{ uid: 7, id: 1 }]
-}
+$ curl -X POST -H "Content-Type: application/json" -d '{"temp": 99, "value": 100 }' -u qxip:qxip http://localhost:8080/post/qxip?test=message
 ```
 
-```
-$ curl -X POST -d 'status={"temp": 99}' -u qxip:qxip http://localhost:8080/post/qxip
-```
-```
-{   "status":"success",
-    "data": [{ uid: 7, id: 2 }]
-}
-```
 --------------
 
-##### To read the latest fweet for a thing:
+##### get the latest fweet for a thing:
 ```
 $ curl -X GET -u qxip:qxip http://localhost:8080/get/latest/qxip
 ```
 ```
+{"status":"success","data":[{"id":97,"uid":1,"thing":"qxip","status":{"user":"me","geo_lat":40.716118,"geo_lon":-75.011661,"value":80,"add":"1"},"time":1445900895326,"version":1}]}
 {   "status":"success",
     "data":[
         {   "id":1,
             "uid":1,
             "thing":"qxip",
-            "status":"set status",
+            "status": { "temp": 99, "value": 100, "text": "message" },
             "time":1445640694522,
             "version":1
         }]
@@ -52,7 +45,7 @@ $ curl -X GET -u qxip:qxip http://localhost:8080/get/latest/qxip
 ```
 --------------
 
-##### To read all fweets for a thing:
+##### get all fweets for a thing:
 ```
 $ curl -X GET -u qxip:qxip http://localhost:8080/get/qxip
 ```
@@ -62,13 +55,13 @@ $ curl -X GET -u qxip:qxip http://localhost:8080/get/qxip
         {   "id":1,
             "uid":7,
             "thing":"qxip",
-            "status":"set status",
+            "status": "set status",
             "time":1445640694522,
             "version":1},
         {   "id":2,
             "uid":7,
             "thing":"qxip",
-            "status":{"temp": 99},
+            "status": { "temp": 99, "value": 100, "text": "message" },
             "time":1445640694689,
             "version":1
         }]
@@ -109,7 +102,7 @@ A barebone example dashboard using data feeds from fweet is available on  [https
 
 Test by sending commands with geo values _(or anything else!)_ to our public demo:
 ```
-$ curl -XPOST 'http://fweet.herokuapp.com/post/qxip' -d 'status={
+$ curl -XPOST -H "Content-Type: application/json" 'http://fweet.herokuapp.com/post/qxip' -d '{
     "user": "me",
     "post_date": "2015-10-25T23:58:45.690Z",
     "message": "trying out fweet",
@@ -118,7 +111,7 @@ $ curl -XPOST 'http://fweet.herokuapp.com/post/qxip' -d 'status={
     "value": 100
   }'
   
-$ curl -XPOST 'http://fweet.herokuapp.com/post/qxip' -d 'status={
+$ curl -XPOST -H "Content-Type: application/json" 'http://fweet.herokuapp.com/post/qxip' -d '{
     "user": "me",
     "post_date": "2015-10-25T23:58:52.490Z",
     "message": "changing location",
@@ -148,7 +141,8 @@ $ curl -XPOST 'http://fweet.herokuapp.com/post/qxip' -d 'status={
 
 
 ### Notice
-
+<i>
 The software is provided "as is", without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose and noninfringement. in no event shall the authors or copyright holders be liable for any claim, damages or other liability, whether in an action of contract, tort or otherwise, arising from, out of or in connection with the software or the use or other dealings in the software.
 
 Any third-party trademarks, brands, names, service marks and logos are the property of their respective owners.
+</i>
