@@ -12,6 +12,7 @@ Easily send and receive data from your _"things"_ (IOT) by interacting with fWee
 ##### To fweet from your thing:
 ```
 $ curl -X GET -u qxip:qxip http://localhost:8080/post/qxip?status=set+status
+
 {   "status":"success",
     "data": [{ uid: 7, id: 1 }]
 }
@@ -19,6 +20,7 @@ $ curl -X GET -u qxip:qxip http://localhost:8080/post/qxip?status=set+status
 
 ```
 $ curl -X POST -d 'status={"temp": 99}' -u qxip:qxip http://localhost:8080/post/qxip
+
 {   "status":"success",
     "data": [{ uid: 7, id: 2 }]
 }
@@ -27,6 +29,7 @@ $ curl -X POST -d 'status={"temp": 99}' -u qxip:qxip http://localhost:8080/post/
 ##### To read the latest fweet for a thing:
 ```
 $ curl -X GET -u qxip:qxip http://localhost:8080/get/latest/qxip
+
 {   "status":"success",
     "data":[
         {   "id":1,
@@ -42,6 +45,7 @@ $ curl -X GET -u qxip:qxip http://localhost:8080/get/latest/qxip
 ##### To read all fweets for a thing:
 ```
 $ curl -X GET -u qxip:qxip http://localhost:8080/get/qxip
+
 {   "status":"success",
     "data":[
         {   "id":1,
@@ -63,6 +67,7 @@ $ curl -X GET -u qxip:qxip http://localhost:8080/get/qxip
 ##### To subscribe to realtime fweets for a thing:
 ```
 $ curl --raw -u qxip:qxip http://localhost:8080/listen/to/qxip
+
 {
    "status": "success",
    "data": "{\"pid\":61,\"uid\":\"7\",\"thing\":\"qxip\",\"time\":1445783849758,\"status\":\"realtime\"}"
@@ -88,8 +93,23 @@ An barebone example dashboard is available [here](https://freeboard.io/board/T0R
 
 Test it by sending commands with geo values (or anything else!) to our public demo:
 ```
-$ curl -X POST -d 'status={ "geo_lat": 40.716118,"geo_lon": -75.011661, "value": 60 }' -u qxip:qxip http://fweet.herokuapp.com/post/qxip
-$ curl -X POST -d 'status={ "geo_lat": 52.786118,"geo_lon": 4.311661, "value": 100 }' -u qxip:qxip http://fweet.herokuapp.com/post/qxip
+$ curl -XPOST 'http://fweet.herokuapp.com/post/qxip' -d 'status={
+    "user": "me",
+    "post_date": "2015-10-25T23:58:45.690Z",
+    "message": "trying out fweet",
+    "geo_lat": 52.786118,
+    "geo_lon": 4.311661,
+    "value": 100
+  }'
+  
+$ curl -XPOST 'http://fweet.herokuapp.com/post/qxip' -d 'status={
+    "user": "me",
+    "post_date": "2015-10-25T23:58:52.490Z",
+    "message": "changing location",
+    "geo_lat": 40.716118,
+    "geo_lon": -75.011661,
+    "value": 80
+  }'
 ```
 
 
@@ -107,7 +127,8 @@ $ curl -X POST -d 'status={ "geo_lat": 52.786118,"geo_lon": 4.311661, "value": 1
 
 ### To-Do:
 
-* lots of stuff
+* Auth Tokens
+* .. lots of stuff
 
 
 ### Notice
