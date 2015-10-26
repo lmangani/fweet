@@ -127,7 +127,7 @@ $ curl -XPOST 'http://fweet.herokuapp.com/post/qxip' -d 'status={
     "value": 80
   }'
 ```
-<img src="http://i.imgur.com/xAFtFvk.png" />
+<img src="http://i.imgur.com/TtIKIy2.png" />
 
 ### API Calls:
 ```
