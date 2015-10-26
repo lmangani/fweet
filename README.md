@@ -8,7 +8,7 @@ Status: _(early/alpha/unstable)_
 Easily send and receive data from your _"things"_ (IOT) by interacting with fWeet JSON API 
 
 <br/>
-
+--------------
 ##### To fweet from your thing:
 ```
 $ curl -X GET -u qxip:qxip http://localhost:8080/post/qxip?status=set+status
@@ -27,6 +27,7 @@ $ curl -X POST -d 'status={"temp": 99}' -u qxip:qxip http://localhost:8080/post/
     "data": [{ uid: 7, id: 2 }]
 }
 ```
+--------------
 
 ##### To read the latest fweet for a thing:
 ```
@@ -44,6 +45,7 @@ $ curl -X GET -u qxip:qxip http://localhost:8080/get/latest/qxip
         }]
 }
 ```
+--------------
 
 ##### To read all fweets for a thing:
 ```
@@ -67,6 +69,7 @@ $ curl -X GET -u qxip:qxip http://localhost:8080/get/qxip
         }]
 }
 ```
+--------------
 
 ##### To subscribe to realtime fweets for a thing:
 ```
@@ -83,20 +86,23 @@ $ curl --raw -u qxip:qxip http://localhost:8080/listen/to/qxip
    "data": "{"pid":62,"uid":7,"thing":"qxip","time":1445783852492,"status":"message"}"
 }
 ```
+--------------
 
-### Setup:
+### Get Started:
+
+Install fweet using npm. Requires a local or remote redis-server as backend.
+
+#### Setup:
 ```
 $ npm install
 $ npm test
 $ npm start
 ```
 
-### Visualize:
-An barebone example dashboard is available [here](https://freeboard.io/board/T0R2h2)
+#### Quick Example:
+A barebone example dashboard using data feeds from fweet is available on  [https://freeboard.io/](https://freeboard.io/board/T0R2h2)
 
-<img src="http://i.imgur.com/xAFtFvk.png" />
-
-Test it by sending commands with geo values (or anything else!) to our public demo:
+Test by sending commands with geo values _(or anything else!)_ to our public demo:
 ```
 $ curl -XPOST 'http://fweet.herokuapp.com/post/qxip' -d 'status={
     "user": "me",
@@ -116,7 +122,7 @@ $ curl -XPOST 'http://fweet.herokuapp.com/post/qxip' -d 'status={
     "value": 80
   }'
 ```
-
+<img src="http://i.imgur.com/xAFtFvk.png" />
 
 ### API Calls:
 ```
@@ -140,4 +146,4 @@ $ curl -XPOST 'http://fweet.herokuapp.com/post/qxip' -d 'status={
 
 The software is provided "as is", without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose and noninfringement. in no event shall the authors or copyright holders be liable for any claim, damages or other liability, whether in an action of contract, tort or otherwise, arising from, out of or in connection with the software or the use or other dealings in the software.
 
-Any third-party trademarks, brands, names, service marks and logos are the property of their respective owners. 
+Any third-party trademarks, brands, names, service marks and logos are the property of their respective owners.
