@@ -1,5 +1,5 @@
 ![travis](https://travis-ci.org/lmangani/fweet.svg?branch=master)
-<br><img src="http://i.imgur.com/8sCQNt2.png?1" heigth="25"> 
+<br>
 
 # <img src="http://i.imgur.com/HF1daBu.gif" height="100"><img src="http://i.imgur.com/czjXDLf.png">
 
@@ -9,6 +9,8 @@
 Status: _(early/alpha/unstable)_
 
 Easily send and receive data from your _"things"_ (IOT) by interacting with fWeet JSON API 
+
+<img src="http://i.imgur.com/8sCQNt2.png" width="50"><img src="http://i.imgur.com/8sCQNt2.png" width="50"><img src="http://i.imgur.com/8sCQNt2.png" width="50">
 
 <br/>
 --------------
