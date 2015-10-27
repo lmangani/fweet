@@ -349,7 +349,10 @@ app.get('/listen/to/:thing', function(req,res) {
 	        // r.set(THING_PREFIX);
 		rsub.subscribe(THING_PREFIX);
 	
-		res.writeHead(200, {'Content-Type': 'application/json'});
+		res.writeHead(200, {
+		        'Content-Type': 'text/html'
+		        , 'Transfer-Encoding': 'chunked'
+		});
 		rsub.on('message', function (channel, message) {
 		    // console.log('\n\n*************\n\nReceived event',channel.replace(THING_PREFIX,''),'\n\n',message,'\n\n**************');
 	   	    msg = Res200; msg.data = [message];
