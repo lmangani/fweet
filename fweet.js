@@ -81,6 +81,7 @@ app.configure('production', function(){
 
 app.all('*',function(req,res,next) {
    req.stash = {};
+   req.header('Content-Type', 'application/json');
    res.header('Access-Control-Allow-Origin', '*'); 
    res.header('Access-Control-Allow-Methods', 'GET, POST');
    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
@@ -350,8 +351,12 @@ app.get('/listen/to/:thing', function(req,res) {
 		rsub.subscribe(THING_PREFIX);
 	
 		res.writeHead(200, {
-		        'Content-Type': 'text/html'
+		        'Content-Type': 'application/json'
 		        , 'Transfer-Encoding': 'chunked'
+		        , 'Access-Control-Allow-Origin': '*'
+                        , 'Access-Control-Allow-Methods': 'GET, POST'
+                        , 'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
+
 		});
 		rsub.on('message', function (channel, message) {
 		    // console.log('\n\n*************\n\nReceived event',channel.replace(THING_PREFIX,''),'\n\n',message,'\n\n**************');
