@@ -120,7 +120,7 @@ $ curl -XPOST -H "Content-Type: application/json" 'http://fweet.herokuapp.com/po
     "value": 80
   }'
 ```
-<img src="http://i.imgur.com/TtIKIy2.png" />
+<img src="http://i.imgur.com/xAFtFvk.png?1" />
 
 ### API Calls:
 ```
