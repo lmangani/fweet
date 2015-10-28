@@ -15,18 +15,18 @@ Easily send and receive data from your _"things"_ (IOT) by interacting with fWee
 <br/>
 --------------
 ##### fweet from your thing:
-```
-$ curl -X GET -u qxip:qxip http://localhost:8080/post/qxip?status=set+status
-```
+<pre>
+$ curl -X GET -u qxip:qxip http://localhost:8080/post/qxip?<b>status=set+status</b>
+</pre>
 
 ##### fweet JSON body and/or parameters:
-```
-$ curl -XPOST -H "Content-Type: application/json" 'http://localhost:8080/post/qxip?status=ok' -d '
+<pre>
+$ curl -XPOST -H "Content-Type: application/json" 'http://localhost:8080/post/qxip?<b>status=ok</b>' -d '
 { 
-  "temp": 99, 
-  "value": 100 
+  <b>"temp": 99, </b>
+  <b>"value": 100 </b>
 }' 
-```
+</pre>
 
 --------------
 
@@ -35,14 +35,13 @@ $ curl -XPOST -H "Content-Type: application/json" 'http://localhost:8080/post/qx
 $ curl -X GET -u qxip:qxip http://localhost:8080/get/latest/qxip
 ```
 ```
-{"status":"success","data":[{"id":97,"uid":1,"thing":"qxip","status":{"user":"me","geo_lat":40.716118,"geo_lon":-75.011661,"value":80,"add":"1"},"time":1445900895326,"version":1}]}
 {   "status":"success",
     "data":[
-        {   "id":1,
-            "uid":1,
+        {   "id":2,
+            "uid":7,
             "thing":"qxip",
             "status": { "temp": 99, "value": 100, "text": "message" },
-            "time":1445640694522,
+            "time":1445640694689,
             "version":1
         }]
 }
