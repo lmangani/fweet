@@ -16,7 +16,7 @@
 
 */
 
-var version = "1.0g"
+var version = "1.0h"
 
 console.log('::: fweet '+version+' initializing ...');
 
@@ -66,6 +66,7 @@ app.configure(function(){
    app.use(express.basicAuth('qxip', 'qxip'));
    app.use(express.bodyParser());
    app.use(express.methodOverride());
+   app.use(express.favicon("favicon.ico")); 
    app.use(app.router);
 });
 
