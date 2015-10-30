@@ -21,7 +21,8 @@ $ curl -X GET -u qxip:qxip http://localhost:8080/post/qxip?<b>status=set+status<
 
 ##### fweet JSON body and/or parameters:
 <pre>
-$ curl -XPOST -H "Content-Type: application/json" 'http://localhost:8080/post/qxip?<b>status=ok</b>' -d '
+$ curl -XPOST -H "Content-Type: application/json" \
+'http://localhost:8080/post/qxip?<b>status=ok</b>' -d '
 { 
   <b>"temp": 99, </b>
   <b>"value": 100 </b>
