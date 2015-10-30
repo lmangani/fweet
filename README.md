@@ -10,16 +10,68 @@ Status: _(early/alpha/unstable)_
 
 Easily send and receive data from your _"things"_ (IOT) by interacting with fWeet JSON API 
 
-<img src="http://i.imgur.com/PXjXiRV.gif" width="50"><img src="http://i.imgur.com/EX3cr4z.gif" width="50"><img src="http://i.imgur.com/UWjVcZW.gif" width="50"><img src="http://i.imgur.com/8sCQNt2.png" width="50">
 
 <br/>
---------------
-##### fweet from your thing:
+
+
+<img src="http://i.imgur.com/PXjXiRV.gif" width="50"><img src="http://i.imgur.com/EX3cr4z.gif" width="50"><img src="http://i.imgur.com/UWjVcZW.gif" width="50"><img src="http://i.imgur.com/8sCQNt2.png" width="50">
+
+### Get Started:
+
+Install fweet using npm. Requires a local or remote redis-server as backend.
+
+#### Setup:
+```
+$ npm install
+$ npm test
+$ npm start
+```
+
+#### Quick Example:
+A barebone example dashboard using data feeds from fweet is available on  [https://freeboard.io/](https://freeboard.io/board/T0R2h2)
+
+Test by sending commands with geo values _(or anything else!)_ to our public demo:
+```
+$ curl -XPOST -H "Content-Type: application/json" 'http://fweet.herokuapp.com/post/qxip' -d '{
+    "user": "me",
+    "post_date": "2015-10-25T23:58:45.690Z",
+    "message": "trying out fweet",
+    "geo_lat": 52.786118,
+    "geo_lon": 4.311661,
+    "value": 100
+  }'
+  
+$ curl -XPOST -H "Content-Type: application/json" 'http://fweet.herokuapp.com/post/qxip' -d '{
+    "user": "me",
+    "post_date": "2015-10-25T23:58:52.490Z",
+    "message": "changing location",
+    "geo_lat": 40.716118,
+    "geo_lon": -75.011661,
+    "value": 80
+  }'
+```
+<img src="http://i.imgur.com/xAFtFvk.png?1" />
+
+### API Calls:
+```
+    POST    /post/:thing            Create a post for a Thing
+    GET     /get/latest/:thing      Read the latest post from a Thing
+    GET     /get/:thing             Read all the available posts from a Thing
+    GET     /get/timeline           Read all the available posts from a All the Things
+    GET     /listen/to/:thing       Subscribe to live posts from a Thing  
+    GET     /del/oldest/:thing      Delete oldest posts from a Thing (careful!)
+    GET     /del/all/:thing         Delete all posts from a Thing (careful!)
+
+```
+
+#### CURL Examples:
+
+##### send a fweet from your thing:
 <pre>
 $ curl -X GET -u qxip:qxip http://localhost:8080/post/qxip?<b>status=set+status</b>
 </pre>
 
-##### fweet JSON body and/or parameters:
+##### send a fweet with JSON body and/or parameters:
 <pre>
 $ curl -XPOST -H "Content-Type: application/json" \
 'http://localhost:8080/post/qxip?<b>status=ok</b>' -d '
@@ -89,54 +141,6 @@ $ curl --raw -u qxip:qxip http://localhost:8080/listen/to/qxip
 }
 ```
 --------------
-
-### Get Started:
-
-Install fweet using npm. Requires a local or remote redis-server as backend.
-
-#### Setup:
-```
-$ npm install
-$ npm test
-$ npm start
-```
-
-#### Quick Example:
-A barebone example dashboard using data feeds from fweet is available on  [https://freeboard.io/](https://freeboard.io/board/T0R2h2)
-
-Test by sending commands with geo values _(or anything else!)_ to our public demo:
-```
-$ curl -XPOST -H "Content-Type: application/json" 'http://fweet.herokuapp.com/post/qxip' -d '{
-    "user": "me",
-    "post_date": "2015-10-25T23:58:45.690Z",
-    "message": "trying out fweet",
-    "geo_lat": 52.786118,
-    "geo_lon": 4.311661,
-    "value": 100
-  }'
-  
-$ curl -XPOST -H "Content-Type: application/json" 'http://fweet.herokuapp.com/post/qxip' -d '{
-    "user": "me",
-    "post_date": "2015-10-25T23:58:52.490Z",
-    "message": "changing location",
-    "geo_lat": 40.716118,
-    "geo_lon": -75.011661,
-    "value": 80
-  }'
-```
-<img src="http://i.imgur.com/xAFtFvk.png?1" />
-
-### API Calls:
-```
-    POST    /post/:thing            Create a post for a Thing
-    GET     /get/latest/:thing      Read the latest post from a Thing
-    GET     /get/:thing             Read all the available posts from a Thing
-    GET     /get/timeline           Read all the available posts from a All the Things
-    GET     /listen/to/:thing       Subscribe to live posts from a Thing  
-    GET     /del/oldest/:thing      Delete oldest posts from a Thing (careful!)
-    GET     /del/all/:thing         Delete all posts from a Thing (careful!)
-
-```
 
 ### To-Do:
 
