@@ -4,35 +4,33 @@
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <title>Fweet Examples</title>
   <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-  
+
   <script type='text/javascript' src='//code.jquery.com/jquery-1.9.1.js'></script>
   <script type='text/javascript' src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.16/angular.min.js"></script>
   <script type='text/javascript' src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.16/angular-resource.min.js"></script>
   
 <style type='text/css'>
-textarea {
-    height:50px;
-    width:100%;
-}
-
-label {
-    width:100px;
-    margin-bottom:10px;
-    clear:both;
-}
-
-input, label {
-    float:left;
-}
+	textarea {
+	    height:50px;
+	    width:100%;
+	}
+	
+	label {
+	    width:100px;
+	    margin-bottom:10px;
+	    clear:both;
+	}
+	
+	input, label {
+	    float:left;
+	}
 </style>
   
 </head>
 <body ng-app='myApp'>
-<div style="width:80%">
+<div style="width:80%;margin: 0 auto;">
   <h1>Fweet!</h1>
   <div ng-controller="myCtrl">
-
     <fieldset>
         <legend>/get/fweet</legend>
         <label for="thing" >thing:</label>
