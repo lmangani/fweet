@@ -28,7 +28,7 @@ $ npm start
 ```
 
 #### Quick Example:
-A barebone example dashboard using data feeds from fweet is available on  [https://freeboard.io/](https://freeboard.io/board/T0R2h2)
+Play with the [online demo](http://lmangani.github.io/fweet/) or check out a barebone example dashboard using data feeds from fweet built with [https://freeboard.io/](https://freeboard.io/board/T0R2h2)
 
 Test by sending commands with geo values _(or anything else!)_ to our public demo:
 ```
