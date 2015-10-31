@@ -1,165 +1,141 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/github-dark.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <title>Fweet!</title>
-      <script type='text/javascript' src='//code.jquery.com/jquery-1.9.1.js'></script>
-    <script type='text/javascript' src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.16/angular.min.js"></script>
-    <script type='text/javascript' src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.16/angular-resource.min.js"></script>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Fweet Examples</title>
+  <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+  
+  <script type='text/javascript' src='//code.jquery.com/jquery-1.9.1.js'></script>
+  <script type='text/javascript' src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.16/angular.min.js"></script>
+  <script type='text/javascript' src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.16/angular-resource.min.js"></script>
+  
+<style type='text/css'>
+textarea {
+    height:50px;
+    width:100%;
+}
+
+label {
+    width:100px;
+    margin-bottom:10px;
+    clear:both;
+}
+
+input, label {
+    float:left;
+}
+</style>
+  
+</head>
+<body ng-app='myApp'>
+<div style="width:80%">
+  <h1>Fweet!</h1>
+  <div ng-controller="myCtrl">
+
+    <fieldset>
+        <legend>/get/fweet</legend>
+        <label for="thing" >thing:</label>
+        <input type="text" ng-model="thing" />
+	<br />
+        <br />
+        <button ng-click="getData('get/')">GET Request</button>
+    </fieldset>
+    <br />
+
+    <fieldset>
+        <legend>/get/latest/fweet</legend>
+        <label for="thing" >thing:</label>
+        <input type="text" ng-model="thing" />
+	<br />
+        <br />
+        <button ng-click="getData('get/latest/')">GET Request</button>
+    </fieldset>
+    <br />
+
+    <fieldset>
+        <legend>/post/fweet</legend>
+        <label for="thing" >thing:</label>
+        <input type="text" ng-model="thing" />
+	<br />
+        <label for="status" >status:</label>
+        <input type="text" ng-model="status"/>
+        <br />
+        <br />
+        <button ng-click="getData('post/')">GET Request</button>
+        <button ng-click="postData('post/')">POST Request</button>
+    </fieldset>
+    <br />
     
-    <style type='text/css'>
-    textarea {
-        height:50px;
-        width:100%;
+    <label for="echo">Status</label>
+    <textarea name="echo" ng-model="response" disabled="disabled" style="height:20px;"></textarea>
+    <label for="full">Full Response</label>
+    <textarea name="full" ng-model="fullResponse" disabled="disabled" style="height:350px;"></textarea>
+ </div>
+</div>
+  
+<script type='text/javascript'>//<![CDATA[
+
+function isJson(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
     }
+    return true;
+}
+
+angular.module('myApp', ['ngResource'])
+.controller('myCtrl', function ($scope, $http) {
+
+    $scope.queries = [
+        {'q': '/get/timeline', 'description': 'Timeline'},
+        {'q': '/get/', 'description': 'Get'}
+    ];
+
+    $scope.randomid = Math.floor((Math.random() * 999) + 1);
+    $scope.status = '{ "test": '+$scope.randomid+', "temp": 20 }';
+    $scope.thing = "qxip";
+    $scope.response = [];
+    $scope.fullResponse = [];
     
-    label {
-        width:100px;
-        margin-bottom:10px;
-        clear:both;
-    }
-    
-    input, label {
-        float:left;
-    }
-    </style>
-
-  </head>
-
-  <body>
-    <div id="container">
-      <div class="inner">
-
-        <header>
-          <h1>Fweet</h1>
-          <h2>fWeet! A simple dweet-like application for node.js and redis for M2M and Internet of Things</h2>
-        </header>
-
-        <div style="width:80%">
-          <div ng-controller="myCtrl">
-        
-            <fieldset>
-                <legend>/get/fweet</legend>
-                <label for="thing" >thing:</label>
-                <input type="text" ng-model="thing" />
-        	<br />
-                <br />
-                <button ng-click="getData('get/')">GET Request</button>
-            </fieldset>
-            <br />
-        
-            <fieldset>
-                <legend>/get/latest/fweet</legend>
-                <label for="thing" >thing:</label>
-                <input type="text" ng-model="thing" />
-        	<br />
-                <br />
-                <button ng-click="getData('get/latest/')">GET Request</button>
-            </fieldset>
-            <br />
-        
-            <fieldset>
-                <legend>/post/fweet</legend>
-                <label for="thing" >thing:</label>
-                <input type="text" ng-model="thing" />
-        	<br />
-                <label for="status" >status:</label>
-                <input type="text" ng-model="status"/>
-                <br />
-                <br />
-                <button ng-click="getData('post/')">GET Request</button>
-                <button ng-click="postData('post/')">POST Request</button>
-            </fieldset>
-            <br />
-            
-            <label for="echo">Status</label>
-            <textarea name="echo" ng-model="response" disabled="disabled" style="height:20px;"></textarea>
-            <label for="full">Full Response</label>
-            <textarea name="full" ng-model="fullResponse" disabled="disabled" style="height:350px;"></textarea>
-         </div>
-        </div>
-
-
-        <footer>
-          Fweet is maintained by <a href="https://github.com/lmangani">lmangani</a><br>
-          This page was generated by <a href="https://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
-        </footer>
-
-        
-      </div>
-    </div>
-    
-    <script type='text/javascript'>//<![CDATA[
-        
-        function isJson(str) {
-            try {
-                JSON.parse(str);
-            } catch (e) {
-                return false;
-            }
-            return true;
-        }
-        
-        angular.module('myApp', ['ngResource'])
-        .controller('myCtrl', function ($scope, $http) {
-        
-            $scope.queries = [
-                {'q': '/get/timeline', 'description': 'Timeline'},
-                {'q': '/get/', 'description': 'Get'}
-            ];
-        
-            $scope.randomid = Math.floor((Math.random() * 999) + 1);
-            $scope.status = '{ "test": '+$scope.randomid+', "temp": 20 }';
-            $scope.thing = "qxip";
-            $scope.response = [];
-            $scope.fullResponse = [];
-            
-            $scope.getData = function(q) {
-                var data = $.param({
-                    json: JSON.stringify($scope.status)
-                });
-        	        // GETs are simple, 
-        	        $http({
-        	          url: "//fweet.herokuapp.com/"+q+$scope.thing, 
-        	          method: "GET", 
-        	          data: [],
-        	          params: JSON.parse($scope.status)
-        	        }).success(function(data, status) {
-        	            $scope.response = "GET Response: " + JSON.stringify(data.status);
-        	            $scope.fullResponse = JSON.stringify(data, null, 3);
-        	        }); 
-            };
-            
-            $scope.postData = function(q) {
-                
-                // Set the Content-Type 
-                $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
-                
-                // Delete the Requested With Header
-                delete $http.defaults.headers.common['X-Requested-With'];
-        
-                $http({
-                  url: "//fweet.herokuapp.com/"+q+$scope.thing, 
-                  method: "POST", 
-                  params: JSON.parse($scope.status)
-                }).success(function(data, status) {
-                    $scope.response = "POST Response: " + data;
-                    $scope.fullResponse = JSON.stringify(data, null, 3);
-                });
-               
-            };
+    $scope.getData = function(q) {
+        var data = $.param({
+            json: JSON.stringify($scope.status)
         });
-        //]]> 
+	        // GETs are simple, 
+	        $http({
+	          url: "//fweet.herokuapp.com/"+q+$scope.thing, 
+	          method: "GET", 
+	          data: [],
+	          params: JSON.parse($scope.status)
+	        }).success(function(data, status) {
+	            $scope.response = "GET Response: " + JSON.stringify(data.status);
+	            $scope.fullResponse = JSON.stringify(data, null, 3);
+	        }); 
+    };
+    
+    $scope.postData = function(q) {
         
-        </script>
+        // Set the Content-Type 
+        $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+        
+        // Delete the Requested With Header
+        delete $http.defaults.headers.common['X-Requested-With'];
 
-  </body>
+        $http({
+          url: "//fweet.herokuapp.com/"+q+$scope.thing, 
+          method: "POST", 
+          params: JSON.parse($scope.status)
+        }).success(function(data, status) {
+            $scope.response = "POST Response: " + data;
+            $scope.fullResponse = JSON.stringify(data, null, 3);
+        });
+       
+    };
+});
+//]]> 
+
+</script>
+</body>
 </html>
