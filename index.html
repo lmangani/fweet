@@ -26,7 +26,9 @@
 	}
 	fieldset {
 	    border-style: dashed;
-	     display: none;
+	}
+	fieldset .content {
+	    display: none;
 	}
 </style>
   
@@ -39,44 +41,52 @@
   <div ng-controller="myCtrl">
     <fieldset>
         <legend>API: /get/fweet</legend>
-        <label for="thing" >thing:</label>
-        <input type="text" ng-model="thing" />
-	<br />
-        <br />
-        <button ng-click="getData('get/', $scope.thing)">GET Request</button>
+        <div class="content">
+	        <label for="thing" >thing:</label>
+	        <input type="text" ng-model="thing" />
+		<br />
+	        <br />
+	        <button ng-click="getData('get/', $scope.thing)">GET Request</button>
+	</div>
     </fieldset>
     <br />
 
     <fieldset>
         <legend>API: /get/latest/fweet</legend>
-        <label for="thing" >thing:</label>
-        <input type="text" ng-model="thing" />
-	<br />
-        <br />
-        <button ng-click="getData('get/latest/', $scope.thing)">GET Request</button>
+        <div class="content">
+	        <label for="thing" >thing:</label>
+	        <input type="text" ng-model="thing" />
+		<br />
+	        <br />
+	        <button ng-click="getData('get/latest/', $scope.thing)">GET Request</button>
+	</div>
     </fieldset>
     <br />
 
     <fieldset>
         <legend>API: /post/fweet</legend>
-        <label for="thing" >thing:</label>
-        <input type="text" ng-model="thing" />
-	<br />
-        <label for="status" >JSON:</label>
-        <input type="text" ng-model="status"/>
-        <br />
-        <br />	<br />
-        <button ng-click="postData('post/', $scope.thing)">POST Request</button>
+        <div class="content">
+        	<label for="thing" >thing:</label>
+        	<input type="text" ng-model="thing" />
+		<br />
+        	<label for="status" >JSON:</label>
+        	<input type="text" ng-model="status"/>
+        	<br />
+        	<br />	<br />
+        	<button ng-click="postData('post/', $scope.thing)">POST Request</button>
+	</div>
     </fieldset>
     <br />
     
     <fieldset>
         <legend>API: /get/timeline</legend>
-        <label for="thing" >thing:</label>
-        <input type="text" ng-model="thing" />
-	<br />
-        <br />
-        <button ng-click="getData('get/timeline', '')">GET Request</button>
+        <div class="content">
+	        <label for="thing" >thing:</label>
+	        <input type="text" ng-model="thing" />
+		<br />
+	        <br />
+	        <button ng-click="getData('get/timeline', '')">GET Request</button>
+	</div>
     </fieldset>
     <br />
     
