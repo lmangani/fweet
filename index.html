@@ -142,6 +142,7 @@ function isJson(str) {
 }
 
 var app = angular.module("MyApp", []);
+
 app.factory("GeolocationService", ['$q', '$window', '$rootScope', function ($q, $window, $rootScope) {
     return function () {
         var deferred = $q.defer();
@@ -177,8 +178,6 @@ app.controller('myCtrl', ['$scope', 'GeolocationService', function ($scope, $htt
 	    $scope.thing = getName(3, 4, '', '')+'-'+getName(2, 6, '', '');
 	    geolocation().then(function (position) {
 	        $scope.position = position;
-	    }, function (reason) {
-	        $scope.message = "Could not be determined."
 	    });
 	    
 	    $scope.mouseX = event.clientX;
