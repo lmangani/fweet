@@ -143,71 +143,75 @@ function isJson(str) {
 
 var geoposition;
 
-function gotGeo(position) {
-  console.log("Latitude: " + position.coords.latitude + ", Longitude: " + position.coords.longitude);
-  geoposition = position;
-}
 
 if (navigator.geolocation) {
-  navigator.geolocation.getCurrentPosition(gotGeo);
+  navigator.geolocation.getCurrentPosition(start);
 } else {
-  console.log('geo not supported', error);
+  console.log('geo not supported');
+  start();
   var position = [];
 }
 
-angular.module('myApp', ['ngResource'])
-.controller('myCtrl', function ($scope, $http) {
+function start(position) {
 
-    $scope.queries = [
-        {'q': '/get/timeline', 'description': 'Timeline'},
-        {'q': '/get/', 'description': 'Get'}
-    ];
+	angular.module('myApp', ['ngResource'])
+	.controller('myCtrl', function ($scope, $http) {
+	
+	    $scope.queries = [
+	        {'q': '/get/timeline', 'description': 'Timeline'},
+	        {'q': '/get/', 'description': 'Get'}
+	    ];
+	
+	    $scope.randomid = Math.floor((Math.random() * 999) + 1);
+	    $scope.thing = getName(3, 4, '', '')+'-'+getName(2, 6, '', '');
+	    if (position) {
+		    $scope.geo_lat = geoposition.coords.latitude;
+		    $scope.geo_lon = geoposition.coords.longitude;
+	    } else { $scope.geo_lat = 0; $scope.geo_lon = 0; }
+	    $scope.mouseX = event.clientX;
+	    $scope.mouseY = event.clientY;
+    	    $scope.status = '{ "test": '+$scope.randomid+', "mouse_X": '+$scope.mouseX+', "mouse_Y":'+$scope.mouseY+',  "geo_lat": '+$scope.geo_lat+', "geo_lon": '+$scope.geo_lon+' }';
 
-    $scope.randomid = Math.floor((Math.random() * 999) + 1);
-    $scope.status = '{ "test": '+$scope.randomid+', "mouse_X": '+$scope.mouseX+', "mouse_Y":'+$scope.mouseY+',  "geo_lat": '+$scope.geo_lat+', "geo_lon": '+$scope.geo_lon+' }';
-    $scope.thing = getName(3, 4, '', '')+'-'+getName(2, 6, '', '');
-    $scope.geto_lat = geoposition.coords.latitude;
-    $scope.geto_lon = geoposition.coords.longitude;
-    $scope.mouseX = event.clientX;
-    $scope.mouseY = event.clientY;
-    $scope.response = [];
-    $scope.fullResponse = [];
-    
-    $scope.getData = function(q) {
-        var data = $.param({
-            json: JSON.stringify($scope.status)
-        });
-	        // GETs are simple, 
+	    $scope.response = [];
+	    $scope.fullResponse = [];
+	    
+	    $scope.getData = function(q) {
+	        var data = $.param({
+	            json: JSON.stringify($scope.status)
+	        });
+		        // GETs are simple, 
+		        $http({
+		          url: "//fweet.herokuapp.com/"+q+$scope.thing, 
+		          method: "GET", 
+		          data: [],
+		          params: JSON.parse($scope.status)
+		        }).success(function(data, status) {
+		            $scope.response = "GET Response: " + JSON.stringify(data.status);
+		            $scope.fullResponse = JSON.stringify(data, null, 3);
+		        }); 
+	    };
+	    
+	    $scope.postData = function(q) {
+	        
+	        // Set the Content-Type 
+	        $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+	        
+	        // Delete the Requested With Header
+	        delete $http.defaults.headers.common['X-Requested-With'];
+	
 	        $http({
 	          url: "//fweet.herokuapp.com/"+q+$scope.thing, 
-	          method: "GET", 
-	          data: [],
+	          method: "POST", 
 	          params: JSON.parse($scope.status)
 	        }).success(function(data, status) {
-	            $scope.response = "GET Response: " + JSON.stringify(data.status);
+	            $scope.response = "POST Response: " + data;
 	            $scope.fullResponse = JSON.stringify(data, null, 3);
-	        }); 
-    };
-    
-    $scope.postData = function(q) {
-        
-        // Set the Content-Type 
-        $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
-        
-        // Delete the Requested With Header
-        delete $http.defaults.headers.common['X-Requested-With'];
+	        });
+	       
+	    };
+	});
+}
 
-        $http({
-          url: "//fweet.herokuapp.com/"+q+$scope.thing, 
-          method: "POST", 
-          params: JSON.parse($scope.status)
-        }).success(function(data, status) {
-            $scope.response = "POST Response: " + data;
-            $scope.fullResponse = JSON.stringify(data, null, 3);
-        });
-       
-    };
-});
 //]]> 
 
 </script>
