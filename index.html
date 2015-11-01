@@ -67,7 +67,7 @@
 	</div>
     </fieldset>
     <br />
-
+<!--
     <fieldset>
         <legend>API: /get/latest/fweet</legend>
         <div class="content">
@@ -91,8 +91,8 @@
 	</div>
     </fieldset>
     <br />
-    
-     <fieldset>
+-->
+     <fieldset id="content_del">
         <legend>API: /del/all/fweets</legend>
         <div class="content">
         	<label for="thing" >thing:</label>
@@ -200,6 +200,7 @@ angular.module('myApp', ['ngResource'])
     
    $scope.getData = function(q,t) {
     	$scope.response = "Please Wait...";
+    	$('#content_del').find('.content').slideToggle(); 
     	if (t != 0) { var thing = $scope.thing; } else { var thing = ''; }
         var data = $.param({
             json: JSON.stringify($scope.status)
