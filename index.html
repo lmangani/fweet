@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <title>Fweet Examples</title>
+  <title>Play with Fweet!</title>
   <link href='//fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" type="text/css" href="stylesheets/github-dark.css" media="screen">
   
@@ -11,19 +11,34 @@
   <script type='text/javascript' src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.16/angular-resource.min.js"></script>
   
 <style type='text/css'>
+	body {
+	    background-color: #f2f2f2;
+	    font-family: 'roboto', sans-serif;
+	    font-weight: 300;
+	    font-size: 16px;
+	    color: #555;
+	    -webkit-font-smoothing: antialiased;
+	}
 	textarea {
 	    height:50px;
 	    width:100%;
 	}
 	
 	label {
+	    color: #10a54a;
 	    width:100px;
+	    margin-top:10px;
 	    margin-bottom:10px;
 	    clear:both;
 	}
 	
 	input, label {
 	    float:left;
+	    margin-top:10px;
+	}
+	button {
+	    float:left;
+	    margin-top:10px;
 	}
 	fieldset {
 	    border-style: dashed;
@@ -31,21 +46,47 @@
 	fieldset .content {
 	    display: none;
 	}
+	h1 {
+	    margin-bottom: 15px;
+	    font-size: 45px;
+	    font-weight: 300;
+	    letter-spacing: -2px;
+	}
+	h2 {
+	    color: #999999;
+	    padding-left: 0;
+	    display: block;
+	    font-weight: 200;
+	}
+	.header {
+		width: 120%;
+    		margin-left: -10px;
+		background-color: #3498db;
+		color: white;
+		margin-top: -20px;
+		padding-top: 50px;
+	}
+
 </style>
   
 </head>
 <body ng-app='myApp'>
-<div id="container">
+<div id="header" class="header">
+	<div style="width:80%;margin:0 auto;">
+	  <h1>Play with Fweet</h1><br/>
+	</div>
+</div>
 <div style="width:80%;margin: 0 auto;">
-  <img src="//i.imgur.com/HF1daBu.gif" height="100" style="margin-bottom:20px;"><img src="//i.imgur.com/czjXDLf.png"><br/>
-  <h2>Try out Fweet!</h2>
+<!--  <img src="//i.imgur.com/HF1daBu.gif" height="100" style="margin-bottom:20px;"><img src="//i.imgur.com/czjXDLf.png"><br/> -->
 
   <div ng-controller="myCtrl">
- 
+    <br>
+    <h2>Click on one of the operations below to play with fweet!</h2> 
+    <br>
     <fieldset>
         <legend>API: /post/fweet</legend>
         <div class="content_post">
-        	<label for="thing" >thing:</label>
+        	<label for="thing" >THING:</label>
         	<input type="text" ng-model="thing" />
 		<br />
         	<label for="status" >JSON:</label>
@@ -61,7 +102,7 @@
     <fieldset id="content_get">
         <legend>API: /get/fweet</legend>
         <div class="content">
-	        <label for="thing" >thing:</label>
+	        <label for="thing" >THING:</label>
 	        <input type="text" ng-model="thing" />
 		<br />
 	        <br />
@@ -73,7 +114,7 @@
     <fieldset>
         <legend>API: /get/latest/fweet</legend>
         <div class="content">
-	        <label for="thing" >thing:</label>
+	        <label for="thing" >THING:</label>
 	        <input type="text" ng-model="thing" />
 		<br />
 	        <br />
@@ -85,7 +126,7 @@
     <fieldset>
         <legend>API: /get/timeline</legend>
         <div class="content">
-	        <label for="thing" >thing:</label>
+	        <label for="thing" >THING:</label>
 	        <input type="text" ng-model="thing" />
 		<br />
 	        <br />
@@ -97,7 +138,7 @@
      <fieldset id="content_del">
         <legend>API: /del/all/fweets</legend>
         <div class="content">
-        	<label for="thing" >thing:</label>
+        	<label for="thing" >THING:</label>
         	<input type="text" ng-model="thing" />
 		<br />
         	<br />
@@ -108,7 +149,7 @@
     
     <label for="echo">Status</label>
     <textarea name="echo" ng-model="response" disabled="disabled" style="height:20px;"></textarea>
-    <label for="full">Full Response</label>
+    <label for="full">Response</label>
     <textarea name="full" ng-model="fullResponse" disabled="disabled" style="height:350px;"></textarea>
  </div>
 </div>
