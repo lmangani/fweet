@@ -26,6 +26,7 @@
 	}
 	fieldset {
 	    border-style: dashed;
+	     display: none;
 	}
 </style>
   
@@ -87,6 +88,13 @@
 </div>
   
 <script type='text/javascript'>//<![CDATA[
+
+$(function(){
+    $('legend').click(function(){
+        $(this).parent().find('.content').slideToggle();
+    });
+});
+
 function rnd(minv, maxv){
 	if (maxv < minv) return 0;
 	return Math.floor(Math.random()*(maxv-minv+1)) + minv;
