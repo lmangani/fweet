@@ -61,7 +61,6 @@
         <input type="text" ng-model="status"/>
         <br />
         <br />	<br />
-        <button ng-click="getData('post/')">GET Request</button>
         <button ng-click="postData('post/')">POST Request</button>
     </fieldset>
     <br />
@@ -159,7 +158,7 @@ angular.module('myApp', ['ngResource'])
 	          url: "//fweet.herokuapp.com/"+q+$scope.thing, 
 	          method: "GET", 
 	          data: [],
-	          params: JSON.parse($scope.status)
+	          // params: JSON.parse($scope.status)
 	        }).success(function(data, status) {
 	            $scope.response = "GET Response: " + JSON.stringify(data.status);
 	            $scope.fullResponse = JSON.stringify(data, null, 3);
