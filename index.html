@@ -50,7 +50,7 @@
         	<input type="text" ng-model="status"/>
         	<br />
         	<br />	<br />
-        	<button ng-click="postData('post/', 1); $('#content_get').find('.content').slideToggle();">POST Request</button>
+        	<button ng-click="$('#content_get').find('.content').slideToggle(); postData('post/', 1); ">POST Request</button>
 	</div>
     </fieldset>
     <br />
