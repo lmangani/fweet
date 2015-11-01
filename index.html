@@ -46,7 +46,7 @@
 	        <input type="text" ng-model="thing" />
 		<br />
 	        <br />
-	        <button ng-click="getData('get/', $scope.thing)">GET Request</button>
+	        <button ng-click="getData('get/', '{{thing}}')">GET Request</button>
 	</div>
     </fieldset>
     <br />
@@ -58,7 +58,7 @@
 	        <input type="text" ng-model="thing" />
 		<br />
 	        <br />
-	        <button ng-click="getData('get/latest/', $scope.thing)">GET Request</button>
+	        <button ng-click="getData('get/latest/', '{{thing}}')">GET Request</button>
 	</div>
     </fieldset>
     <br />
@@ -73,7 +73,7 @@
         	<input type="text" ng-model="status"/>
         	<br />
         	<br />	<br />
-        	<button ng-click="postData('post/', $scope.thing)">POST Request</button>
+        	<button ng-click="postData('post/', '{{thing}}')">POST Request</button>
 	</div>
     </fieldset>
     <br />
