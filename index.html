@@ -150,6 +150,7 @@ angular.module('myApp', ['ngResource'])
     $scope.fullResponse = [];
     
     $scope.getData = function(q) {
+    	$scope.response = "Please Wait...";
         var data = $.param({
             json: JSON.stringify($scope.status)
         });
@@ -166,7 +167,7 @@ angular.module('myApp', ['ngResource'])
     };
     
     $scope.postData = function(q) {
-        
+        $scope.response = "Please Wait...";
         // Set the Content-Type 
         $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
         
