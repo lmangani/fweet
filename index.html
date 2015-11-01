@@ -189,9 +189,9 @@ angular.module('myApp', ['ngResource'])
     ];
     
     // Start
-    $scope.lat = 0; $scope.lon = 0; 
+    $scope.lat = 0; $scope.lng = 0; 
     $scope.randomid = function(max){ return Math.floor((Math.random() * max) + 1)};
-    $scope.status = '{ "test": '+$scope.randomid(999)+', "temp": '+$scope.randomid(45)+'  }';
+    $scope.status = '{ "test": '+$scope.randomid(999)+', "temp": '+$scope.randomid(45)+', "geo_lat": '+$scope.lat+', "geo_lon": '+$scope.lng+'  }';
     $scope.thing = getName(3, 4, '', '')+'-'+getName(2, 6, '', '');
     $scope.response = [];
     $scope.fullResponse = [];
@@ -229,7 +229,7 @@ angular.module('myApp', ['ngResource'])
             $scope.response = "POST Response: " + data;
             $scope.fullResponse = JSON.stringify(data, null, 3);
             // new values
-    	    $scope.status = '{ "test": '+$scope.randomid(999)+', "temp": '+$scope.randomid(45)+'  }';
+    	    $scope.status = '{ "test": '+$scope.randomid(999)+', "temp": '+$scope.randomid(45)+', "geo_lat": '+$scope.lat+', "geo_lon": '+$scope.lng+'  }';
         });
        
     };
@@ -238,8 +238,8 @@ angular.module('myApp', ['ngResource'])
     	
             $scope.lat = position.coords.latitude;
             $scope.lng = position.coords.longitude;
-            	console.log('got position', position.coords, $scope.lat, $scope.lon);
-            $scope.status = '{ "test": '+$scope.randomid(999)+', "temp": '+$scope.randomid(45)+', "geo_lat": '+$scope.lat+', "geo_lon": '+$scope.lon+'  }';
+            	console.log('got position', position.coords, $scope.lat, $scope.lng);
+            $scope.status = '{ "test": '+$scope.randomid(999)+', "temp": '+$scope.randomid(45)+', "geo_lat": '+$scope.lat+', "geo_lon": '+$scope.lng+'  }';
             $scope.$apply();
 
     };
