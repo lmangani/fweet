@@ -186,14 +186,8 @@ angular.module('myApp', ['ngResource'])
         {'q': '/get/timeline', 'description': 'Timeline'},
         {'q': '/get/', 'description': 'Get'}
     ];
-    $scope.randomid = function(max){ return Math.floor((Math.random() * max) + 1)};
-    $scope.status = '{ "test": '+$scope.randomid(999)+', "temp": '+$scope.randomid(45)+', "geo_lat": '+$scope.lat+', "geo_lon": '+$scope.lon+'  }';
-    $scope.thing = getName(3, 4, '', '')+'-'+getName(2, 6, '', '');
-    $scope.response = [];
-    $scope.fullResponse = [];
-    $scope.getLocation();
     
-    $scope.getData = function(q,t) {
+   $scope.getData = function(q,t) {
     	$scope.response = "Please Wait...";
     	if (t != 0) { var thing = $scope.thing; } else { var thing = ''; }
         var data = $.param({
@@ -245,7 +239,16 @@ angular.module('myApp', ['ngResource'])
                 $scope.error = "Geolocation is not supported by this browser.";
             }
      };
- 
+     
+     // Start
+     
+    $scope.randomid = function(max){ return Math.floor((Math.random() * max) + 1)};
+    $scope.status = '{ "test": '+$scope.randomid(999)+', "temp": '+$scope.randomid(45)+', "geo_lat": '+$scope.lat+', "geo_lon": '+$scope.lon+'  }';
+    $scope.thing = getName(3, 4, '', '')+'-'+getName(2, 6, '', '');
+    $scope.response = [];
+    $scope.fullResponse = [];
+    $scope.getLocation();
+
      
 });
 //]]> 
