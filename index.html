@@ -39,7 +39,7 @@
         <input type="text" ng-model="thing" />
 	<br />
         <br />
-        <button ng-click="getData('get/')">GET Request</button>
+        <button ng-click="getData('get/', $scope.thing)">GET Request</button>
     </fieldset>
     <br />
 
@@ -49,7 +49,7 @@
         <input type="text" ng-model="thing" />
 	<br />
         <br />
-        <button ng-click="getData('get/latest/')">GET Request</button>
+        <button ng-click="getData('get/latest/', $scope.thing)">GET Request</button>
     </fieldset>
     <br />
 
@@ -62,7 +62,17 @@
         <input type="text" ng-model="status"/>
         <br />
         <br />	<br />
-        <button ng-click="postData('post/')">POST Request</button>
+        <button ng-click="postData('post/', $scope.thing)">POST Request</button>
+    </fieldset>
+    <br />
+    
+    <fieldset>
+        <legend>API: /get/timeline</legend>
+        <label for="thing" >thing:</label>
+        <input type="text" ng-model="thing" />
+	<br />
+        <br />
+        <button ng-click="getData('get/timeline', '')">GET Request</button>
     </fieldset>
     <br />
     
@@ -149,14 +159,14 @@ angular.module('myApp', ['ngResource'])
     $scope.response = [];
     $scope.fullResponse = [];
     
-    $scope.getData = function(q) {
+    $scope.getData = function(q,t) {
     	$scope.response = "Please Wait...";
         var data = $.param({
             json: JSON.stringify($scope.status)
         });
 	        // GETs are simple, 
 	        $http({
-	          url: "//fweet.herokuapp.com/"+q+$scope.thing, 
+	          url: "//fweet.herokuapp.com/"+q+t, 
 	          method: "GET", 
 	          data: [],
 	          // params: JSON.parse($scope.status)
@@ -166,7 +176,7 @@ angular.module('myApp', ['ngResource'])
 	        }); 
     };
     
-    $scope.postData = function(q) {
+    $scope.postData = function(q,t) {
         $scope.response = "Please Wait...";
         // Set the Content-Type 
         $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
@@ -174,7 +184,7 @@ angular.module('myApp', ['ngResource'])
         // Delete the Requested With Header
         delete $http.defaults.headers.common['X-Requested-With'];
         $http({
-          url: "//fweet.herokuapp.com/"+q+$scope.thing, 
+          url: "//fweet.herokuapp.com/"+q+t, 
           method: "POST", 
           params: JSON.parse($scope.status)
         }).success(function(data, status) {
