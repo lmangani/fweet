@@ -112,6 +112,7 @@
 <script type='text/javascript'>//<![CDATA[
 
 $(function(){
+    window.navigator.geolocation.getCurrentPosition(function(p){console.log(p);})
     $('legend').click(function(){
         $(this).parent().find('.content').slideToggle();
     });
