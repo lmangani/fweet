@@ -39,7 +39,24 @@
   <h2>Try out Fweet!</h2>
 
   <div ng-controller="myCtrl">
+ 
     <fieldset>
+        <legend>API: /post/fweet</legend>
+        <div class="content_post">
+        	<label for="thing" >thing:</label>
+        	<input type="text" ng-model="thing" />
+		<br />
+        	<label for="status" >JSON:</label>
+        	<input type="text" ng-model="status"/>
+        	<br />
+        	<br />	<br />
+        	<button ng-click="postData('post/', 1); $('#content_get').find('.content').slideToggle();">POST Request</button>
+	</div>
+    </fieldset>
+    <br />
+  	
+  	
+    <fieldset id="content_get">
         <legend>API: /get/fweet</legend>
         <div class="content">
 	        <label for="thing" >thing:</label>
@@ -59,21 +76,6 @@
 		<br />
 	        <br />
 	        <button ng-click="getData('get/latest/', 1)">GET Request</button>
-	</div>
-    </fieldset>
-    <br />
-
-    <fieldset>
-        <legend>API: /post/fweet</legend>
-        <div class="content">
-        	<label for="thing" >thing:</label>
-        	<input type="text" ng-model="thing" />
-		<br />
-        	<label for="status" >JSON:</label>
-        	<input type="text" ng-model="status"/>
-        	<br />
-        	<br />	<br />
-        	<button ng-click="postData('post/', 1)">POST Request</button>
 	</div>
     </fieldset>
     <br />
