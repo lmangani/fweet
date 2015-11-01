@@ -187,7 +187,7 @@ angular.module('myApp', ['ngResource'])
         {'q': '/get/', 'description': 'Get'}
     ];
     $scope.randomid = function(max){ return Math.floor((Math.random() * max) + 1)};
-    $scope.status = '{ "test": '+$scope.randomid(999)+', "temp": '+$scope.randomid(45)+' }';
+    $scope.status = '{ "test": '+$scope.randomid(999)+', "temp": '+$scope.randomid(45)+', "geo_lat": '+$scope.lat+', "geo_lon": '+$scope.lon+'  }';
     $scope.thing = getName(3, 4, '', '')+'-'+getName(2, 6, '', '');
     $scope.response = [];
     $scope.fullResponse = [];
@@ -229,6 +229,23 @@ angular.module('myApp', ['ngResource'])
         });
        
     };
+    
+    $scope.showPosition = function (position) {
+            $scope.lat = position.coords.latitude;
+            $scope.lng = position.coords.longitude;
+            $scope.$apply();
+    };
+    
+    $scope.getLocation = function () {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition($scope.showPosition, $scope.showError);
+            }
+            else {
+                $scope.error = "Geolocation is not supported by this browser.";
+            }
+     };
+ 
+     $scope.getLocation();
 });
 //]]> 
 </script>
