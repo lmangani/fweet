@@ -191,6 +191,7 @@ angular.module('myApp', ['ngResource'])
     $scope.thing = getName(3, 4, '', '')+'-'+getName(2, 6, '', '');
     $scope.response = [];
     $scope.fullResponse = [];
+    $scope.getLocation();
     
     $scope.getData = function(q,t) {
     	$scope.response = "Please Wait...";
@@ -245,7 +246,7 @@ angular.module('myApp', ['ngResource'])
             }
      };
  
-     $scope.getLocation();
+     
 });
 //]]> 
 </script>
