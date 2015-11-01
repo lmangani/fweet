@@ -46,7 +46,7 @@
 	        <input type="text" ng-model="thing" />
 		<br />
 	        <br />
-	        <button ng-click="getData('get/', '{{thing}}')">GET Request</button>
+	        <button ng-click="getData('get/', 1)">GET Request</button>
 	</div>
     </fieldset>
     <br />
@@ -58,7 +58,7 @@
 	        <input type="text" ng-model="thing" />
 		<br />
 	        <br />
-	        <button ng-click="getData('get/latest/', '{{thing}}')">GET Request</button>
+	        <button ng-click="getData('get/latest/', 1)">GET Request</button>
 	</div>
     </fieldset>
     <br />
@@ -73,7 +73,7 @@
         	<input type="text" ng-model="status"/>
         	<br />
         	<br />	<br />
-        	<button ng-click="postData('post/', '{{thing}}')">POST Request</button>
+        	<button ng-click="postData('post/', 1)">POST Request</button>
 	</div>
     </fieldset>
     <br />
@@ -85,7 +85,7 @@
 	        <input type="text" ng-model="thing" />
 		<br />
 	        <br />
-	        <button ng-click="getData('get/timeline', '')">GET Request</button>
+	        <button ng-click="getData('get/timeline', 0)">GET Request</button>
 	</div>
     </fieldset>
     <br />
@@ -182,12 +182,13 @@ angular.module('myApp', ['ngResource'])
     
     $scope.getData = function(q,t) {
     	$scope.response = "Please Wait...";
+    	if (t != 0) { var thing = $scope.thing; } else { var thing = ''; }
         var data = $.param({
             json: JSON.stringify($scope.status)
         });
 	        // GETs are simple, 
 	        $http({
-	          url: "//fweet.herokuapp.com/"+q+t, 
+	          url: "//fweet.herokuapp.com/"+q+thing, 
 	          method: "GET", 
 	          data: [],
 	          // params: JSON.parse($scope.status)
@@ -205,7 +206,7 @@ angular.module('myApp', ['ngResource'])
         // Delete the Requested With Header
         delete $http.defaults.headers.common['X-Requested-With'];
         $http({
-          url: "//fweet.herokuapp.com/"+q+t, 
+          url: "//fweet.herokuapp.com/"+q+$scope.thing, 
           method: "POST", 
           params: JSON.parse($scope.status)
         }).success(function(data, status) {
