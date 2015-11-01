@@ -3,10 +3,10 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <title>Fweet Examples</title>
-  <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+  <link href='//fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
 
   <script type='text/javascript' src='//code.jquery.com/jquery-1.9.1.js'></script>
-  <script type='text/javascript' src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.16/angular.min.js"></script>
+  <script type='text/javascript' src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.16/angular.min.js"></script>
   <script type='text/javascript' src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.16/angular-resource.min.js"></script>
   
 <style type='text/css'>
@@ -29,7 +29,7 @@
 </head>
 <body ng-app='myApp'>
 <div style="width:80%;margin: 0 auto;">
-  <img src="http://i.imgur.com/HF1daBu.gif" height="100"><img src="http://i.imgur.com/czjXDLf.png"><br/>
+  <img src="//i.imgur.com/HF1daBu.gif" height="100"><img src="//i.imgur.com/czjXDLf.png"><br/>
   <p>Try out Fweet!</p>
   <div ng-controller="myCtrl">
     <fieldset>
@@ -152,22 +152,31 @@ if (navigator.geolocation) {
   var position = [];
 }
 
-function start(position) {
 
-	angular.module('myApp', ['ngResource'])
-	.controller('myCtrl', function ($scope, $http) {
+angular.module('myApp', ['ngResource'])
+	.controller('myCtrl', function ($scope, $http, location) {
 	
 	    $scope.queries = [
 	        {'q': '/get/timeline', 'description': 'Timeline'},
 	        {'q': '/get/', 'description': 'Get'}
 	    ];
+
+		$stateProvider.state('locationState', {
+		      resolve: {
+		         location: function(geolocation){
+		            return geolocation.getLocation();
+		         }
+		      },
+		      controller: 'myCtrl'
+		})
 	
 	    $scope.randomid = Math.floor((Math.random() * 999) + 1);
 	    $scope.thing = getName(3, 4, '', '')+'-'+getName(2, 6, '', '');
-	    if (position) {
-		    $scope.geo_lat = geoposition.coords.latitude;
-		    $scope.geo_lon = geoposition.coords.longitude;
+	    if (location) {
+		    $scope.geo_lat = location.coords.latitude;
+		    $scope.geo_lon = location.coords.longitude;
 	    } else { $scope.geo_lat = 0; $scope.geo_lon = 0; }
+	    
 	    $scope.mouseX = event.clientX;
 	    $scope.mouseY = event.clientY;
     	    $scope.status = '{ "test": '+$scope.randomid+', "mouse_X": '+$scope.mouseX+', "mouse_Y":'+$scope.mouseY+',  "geo_lat": '+$scope.geo_lat+', "geo_lon": '+$scope.geo_lon+' }';
@@ -210,7 +219,6 @@ function start(position) {
 	       
 	    };
 	});
-}
 
 //]]> 
 
