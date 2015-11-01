@@ -238,9 +238,9 @@ angular.module('myApp', ['ngResource'])
     	
             $scope.lat = position.coords.latitude;
             $scope.lng = position.coords.longitude;
-            $scope.$apply();
             	console.log('got position', position.coords, $scope.lat, $scope.lon);
-             $scope.status = '{ "test": '+$scope.randomid(999)+', "temp": '+$scope.randomid(45)+', "geo_lat": '+$scope.lat+', "geo_lon": '+$scope.lon+'  }';
+            $scope.status = '{ "test": '+$scope.randomid(999)+', "temp": '+$scope.randomid(45)+', "geo_lat": '+$scope.lat+', "geo_lon": '+$scope.lon+'  }';
+            $scope.$apply();
 
     };
     
