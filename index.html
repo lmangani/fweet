@@ -141,8 +141,15 @@ function isJson(str) {
     return true;
 }
 
+var geoposition;
+
+function gotGeo(position) {
+  console.log("Latitude: " + position.coords.latitude + ", Longitude: " + position.coords.longitude);
+  geoposition = position;
+}
+
 if (navigator.geolocation) {
-  navigator.geolocation.getCurrentPosition(success, error);
+  navigator.geolocation.getCurrentPosition(gotGeo);
 } else {
   console.log('geo not supported', error);
   var position = [];
@@ -159,8 +166,8 @@ angular.module('myApp', ['ngResource'])
     $scope.randomid = Math.floor((Math.random() * 999) + 1);
     $scope.status = '{ "test": '+$scope.randomid+', "mouse_X": '+$scope.mouseX+', "mouse_Y":'+$scope.mouseY+',  "geo_lat": '+$scope.geo_lat+', "geo_lon": '+$scope.geo_lon+' }';
     $scope.thing = getName(3, 4, '', '')+'-'+getName(2, 6, '', '');
-    $scope.geto_lat = position.coords.latitude;
-    $scope.geto_lon = position.coords.longitude;
+    $scope.geto_lat = geoposition.coords.latitude;
+    $scope.geto_lon = geoposition.coords.longitude;
     $scope.mouseX = event.clientX;
     $scope.mouseY = event.clientY;
     $scope.response = [];
