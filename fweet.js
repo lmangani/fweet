@@ -95,13 +95,13 @@ app.get('/', function(req,res) {
 
 app.all('/post/:thing', function(req,res) {
    var thing = req.param('thing','');
-   if (thing.length <= 0 | typeof(thing.length)=== undefined ) { msg = Res500; msg.error = { how: "thing name mandatory!", error: "missing field"}; res.send(msg); }
+   if (thing.length <= 0 | typeof(thing.length)=== undefined ) { msg = Res500; msg.error = { how: "thing name mandatory!", error: "missing field"}; return res.send(msg); }
    var username = thing;
    var password = "";
       // Find or create Thing
       r.get('thing:' + thing + ':id',function(err,val){
          if (err) {
-	    msg = Res500; msg.error = { how: "failed to find thing: "+thing, error: err}; res.send(msg);
+	    msg = Res500; msg.error = { how: "failed to find thing: "+thing, error: err}; return res.send(msg);
          } else if (val) {
 	    // Thing is valid!
 	    req.stash.user = {};
@@ -142,7 +142,7 @@ app.all('/post/:thing', function(req,res) {
          } else {
             User.register(thing,password,function(err,user,session) {
                if (err) {
-		  msg = Res500; msg.error = err; res.send(msg);
+		  msg = Res500; msg.error = err; return res.send(msg);
                } else {
                   req.stash.user = user;
                   // Use new Thing
@@ -188,13 +188,13 @@ app.all('/post/:thing', function(req,res) {
 /* duplicate functionality for dev */
 app.all('/fweet/for/:thing', function(req,res) {
    var thing = req.param('thing','');
-   if (thing.length <= 0 | typeof(thing.length)=== undefined ) { msg = Res500; msg.error = { how: "thing name mandatory!", error: "missing field"}; res.send(msg); }
+   if (thing.length <= 0 | typeof(thing.length)=== undefined ) { msg = Res500; msg.error = { how: "thing name mandatory!", error: "missing field"}; return res.send(msg); }
    var username = thing;
    var password = "";
       // Find or create Thing
       r.get('thing:' + thing + ':id',function(err,val){
          if (err) {
-	    msg = Res500; msg.error = { how: "failed to find thing: "+thing, error: err}; res.send(msg);
+	    msg = Res500; msg.error = { how: "failed to find thing: "+thing, error: err}; return res.send(msg);
          } else if (val) {
 	    // Thing is valid!
 	    req.stash.user = {};
@@ -235,7 +235,7 @@ app.all('/fweet/for/:thing', function(req,res) {
          } else {
             User.register(thing,password,function(err,user,session) {
                if (err) {
-		  msg = Res500; msg.error = err; res.send(msg);
+		  msg = Res500; msg.error = err; return res.send(msg);
                } else {
                   req.stash.user = user;
                   // Use new Thing
@@ -289,7 +289,7 @@ app.get('/get/timeline', function(req,res) {
       req.stash.count = count;
       User.getPosts(-1, start, count, function(err, posts) {
          if (err) { 
-		msg = Res500; msg.error = "no data"; res.send(msg); }
+		msg = Res500; msg.error = "no data"; return res.send(msg); }
          else { 
 		req.stash.posts = posts;
 	 	msg = Res200; msg.data = posts; res.send(msg);
@@ -321,7 +321,7 @@ app.get('/get/latest/:thing', function(req,res) {
 
 app.get('/get/:thing', function(req,res) {
    r.get("thing:"+req.param('thing','')+":id",function(err,uid) {
-      if (err || !uid > 0) { msg = Res500; msg.error = 'bad request'; res.send(msg); }
+      if (err || !uid > 0) { msg = Res500; msg.error = 'bad request'; return res.send(msg); }
       var start = req.param('start',0);
       var count = req.param('count',50);
       req.stash.start = start;
@@ -342,7 +342,7 @@ app.get('/get/:thing', function(req,res) {
 
 app.get('/listen/to/:thing', function(req,res) {
    r.get("thing:"+req.param('thing','')+":id",function(err,uid) {
-      if (err || !uid > 0) { msg = Res500; msg.error = 'bad request'; res.send(msg); }
+      if (err || !uid > 0) { msg = Res500; msg.error = 'bad request'; return res.send(msg); }
       else {
 	      req.stash.uid = uid;
 	      req.stash.thing = req.param('thing','');
@@ -373,7 +373,7 @@ app.get('/listen/to/:thing', function(req,res) {
 
 app.get('/del/all/:thing', function(req,res) {
    r.get("thing:"+req.param('thing','')+":id",function(err,uid) {
-      if (err || !uid > 0) { msg = Res500; msg.error = 'bad request'; res.send(msg); }
+      if (err || !uid > 0) { msg = Res500; msg.error = 'bad request'; return res.send(msg); }
       var start = req.param('start',0);
       var count = req.param('count',0);
       req.stash.start = start;
@@ -391,7 +391,7 @@ app.get('/del/all/:thing', function(req,res) {
 // BROKEN! WIP!
 app.get('/del/oldest/:thing', function(req,res) {
    r.get("thing:"+req.param('thing','')+":id",function(err,uid) {
-      if (err || !uid > 0) { msg = Res500; msg.error = 'bad request'; res.send(msg); }
+      if (err || !uid > 0) { msg = Res500; msg.error = 'bad request'; return res.send(msg); }
       var start = req.param('start',1);
       var count = req.param('count',-1);
       req.stash.start = start;
