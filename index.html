@@ -141,30 +141,34 @@ function isJson(str) {
     return true;
 }
 
+angular.module('geolocation', [])
+.factory('geolocation', function ($q, $window) {
+    return {
+        getLocation: function () {
+            var deferred = $q.defer();
 
+            $window.navigator.geolocation.getCurrentPosition(function(position){
+                deferred.resolve(position);
+            }); 
 
-angular.module('myApp', ['ngResource'])
-	.controller('myCtrl', function ($scope, $http, location) {
+            return deferred.promise;
+        }
+    };
+});
+
+angular.module('myApp', ['ngResource', 'geolocation'])
+	.controller('myCtrl', function ($scope, $http, geolocation) {
 	
 	    $scope.queries = [
 	        {'q': '/get/timeline', 'description': 'Timeline'},
 	        {'q': '/get/', 'description': 'Get'}
 	    ];
-
-		$stateProvider.state('locationState', {
-		      resolve: {
-		         location: function(geolocation){
-		            return geolocation.getLocation();
-		         }
-		      },
-		      controller: 'myCtrl'
-		})
 	
 	    $scope.randomid = Math.floor((Math.random() * 999) + 1);
 	    $scope.thing = getName(3, 4, '', '')+'-'+getName(2, 6, '', '');
-	    if (location) {
-		    $scope.geo_lat = location.coords.latitude;
-		    $scope.geo_lon = location.coords.longitude;
+	    if (geolocation) {
+		    $scope.geo_lat = geolocation.coords.latitude;
+		    $scope.geo_lon = geolocation.coords.longitude;
 	    } else { $scope.geo_lat = 0; $scope.geo_lon = 0; }
 	    
 	    $scope.mouseX = event.clientX;
