@@ -90,6 +90,18 @@
     </fieldset>
     <br />
     
+     <fieldset>
+        <legend>API: /del/all/fweets</legend>
+        <div class="content">
+        	<label for="thing" >thing:</label>
+        	<input type="text" ng-model="thing" />
+		<br />
+        	<br />
+        	<button ng-click="getData('del/all/', 1)">GET Request</button>
+	</div>
+    </fieldset>
+    <br />
+    
     <label for="echo">Status</label>
     <textarea name="echo" ng-model="response" disabled="disabled" style="height:20px;"></textarea>
     <label for="full">Full Response</label>
