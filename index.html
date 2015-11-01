@@ -141,6 +141,13 @@ function isJson(str) {
     return true;
 }
 
+if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(success, error);
+} else {
+  console.log('geo not supported', error);
+  var position = [];
+}
+
 angular.module('myApp', ['ngResource'])
 .controller('myCtrl', function ($scope, $http) {
 
