@@ -150,8 +150,12 @@ angular.module('myApp', ['ngResource'])
     ];
 
     $scope.randomid = Math.floor((Math.random() * 999) + 1);
-    $scope.status = '{ "test": '+$scope.randomid+', "temp": 20 }';
+    $scope.status = '{ "test": '+$scope.randomid+', "mouse_X": '+$scope.mouseX+', "mouse_Y":'+$scope.mouseY+',  "geo_lat": '+$scope.geo_lat+', "geo_lon": '+$scope.geo_lon+' }';
     $scope.thing = getName(3, 4, '', '')+'-'+getName(2, 6, '', '');
+    $scope.geto_lat = position.coords.latitude;
+    $scope.geto_lon = position.coords.longitude;
+    $scope.mouseX = event.clientX;
+    $scope.mouseY = event.clientY;
     $scope.response = [];
     $scope.fullResponse = [];
     
