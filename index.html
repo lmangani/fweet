@@ -238,7 +238,7 @@ angular.module('myApp', ['ngResource'])
     
     $scope.getLocation = function () {
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition($scope.showPosition, $scope.showError);
+                navigator.geolocation.getCurrentPosition($scope.showPosition, function(e){console.log('error',e);});
             }
             else {
                 $scope.error = "Geolocation is not supported by this browser.";
